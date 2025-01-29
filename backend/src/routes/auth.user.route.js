@@ -66,15 +66,58 @@ router.post("/login", async (req, res) => {
 // Logout User
 router.post("/logout", async (req, res) => {
   try {
-    res.clearCookie('token');
-    res.status(200).send({message: "Logged out successfully done!"})
+    res.clearCookie("token");
+    res.status(200).send({ message: "Logged out successfully done!" });
   } catch (error) {
     console.error("Failed To Logout", error);
-    res.status(500).send({ message: "Failed To Logout!" });
+    res.status(500).json({ message: "Failed To Logout!" });
   }
 });
 
-// get User
+// get all User
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find({}, "id email role");
+    res.status(200).send({ message: "Users Found Successfully!", users });
+  } catch (error) {
+    console.error("Error Fetching User", error);
+    res.status(500).send({ message: "Failed to Fetch Users" });
+  }
+});
 
+// delete a user
+router.delete("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(404).send({ message: "User Not Found!" });
+    }
+
+    res.status(200).send({ message: "User Deleted Successfully!" });
+  } catch (error) {
+    console.error("Error Deleting user", error);
+    res.status(500).json({ message: "Error Deleting user" });
+  }
+});
+
+// upadate user role
+router.put("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    const user = await User.findByIdAndUpdate(id, { role }, { new: true });
+
+    if (!user) {
+      res.status(404).send({ message: "UserNot Found" });
+    }
+    res.status(200).send({ message: "Role Uodated Successfully!", user });
+  } catch (error) {
+    console.error("Failed To Update Role", error);
+    res.status(500).json({ message: "Failed To Update Role!" });
+  }
+});
 
 module.exports = router;

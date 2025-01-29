@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Blog = require("../model/blog.model.js");
 const Comment = require("../model/comment.model.js");
+const verifyToken = require("../middleware/verifyToken.js");
+const isAdmin = require("../middleware/isAdmin.js");
 
 // create a blog post
-router.post("/create-post", async (req, res) => {
+router.post("/create-post", verifyToken, isAdmin, async (req, res) => {
   try {
     // console.log("Blog Data From API :", req.body)
-    const newPost = new Blog({ ...req.body });
+    const newPost = new Blog({ ...req.body}); //TODO: use author : req.userId, when you have tokenVerify 
     await newPost.save();
     res.status(201).send({
       message: "Post Created Successfully!",
@@ -18,6 +20,7 @@ router.post("/create-post", async (req, res) => {
     res.status(500).send({ message: "Error Creating a Post" });
   }
 });
+
 // get All Blogs
 router.get("/", async (req, res) => {
   try {
@@ -50,7 +53,7 @@ router.get("/", async (req, res) => {
       };
     }
 
-    const post = await Blog.find(query).sort({ createdAt: -1 });
+    const post = await Blog.find(query).populate('author', 'email').sort({ createdAt: -1 });
     res.status(200).send({
       message: "All Posts Retrieved Successfully!",
       post: post,
@@ -82,7 +85,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // update a Blog Post
-router.patch("/update-post/:id", async (req, res) => {
+router.patch("/update-post/:id", verifyToken, async (req, res) => {
   try {
     const postId = req.params.id;
     const updatedPost = await Blog.findByIdAndUpdate(
@@ -107,7 +110,7 @@ router.patch("/update-post/:id", async (req, res) => {
 });
 
 // delete a Blog
-router.delete("/:id", async(req, res) =>{
+router.delete("/:id", verifyToken, async(req, res) =>{
   try {
     const postId = req.params.id;
     const post = await Blog.findByIdAndDelete(postId);
