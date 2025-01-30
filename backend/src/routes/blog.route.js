@@ -3,21 +3,21 @@ const router = express.Router();
 const Blog = require("../model/blog.model.js");
 const Comment = require("../model/comment.model.js");
 const verifyToken = require("../middleware/verifyToken.js");
-const isAdmin = require("../middleware/isAdmin.js");
+const isAdmin = require('../middleware/isAdmin.js');
 
 // create a blog post
-router.post("/create-post", verifyToken, isAdmin, async (req, res) => {
+router.post('/create-post', verifyToken, isAdmin, async (req, res) => {
   try {
-    // console.log("Blog Data From API :", req.body)
-    const newPost = new Blog({ ...req.body}); //TODO: use author : req.userId, when you have tokenVerify 
-    await newPost.save();
-    res.status(201).send({
-      message: "Post Created Successfully!",
-      post: newPost,
-    });
+      // console.log("UserId: ", req.userId)
+      const newPost = new Blog({
+          ...req.body,
+          author: req.userId,
+      });
+      await newPost.save();
+      res.status(201).send({ message: 'Post created successfully', post: newPost });
   } catch (error) {
-    console.error("Error creating post", error);
-    res.status(500).send({ message: "Error Creating a Post" });
+      console.error('Error creating post:', error);
+      res.status(500).send({ message: 'Failed to create post' });
   }
 });
 
@@ -53,7 +53,9 @@ router.get("/", async (req, res) => {
       };
     }
 
-    const post = await Blog.find(query).populate('author', 'email').sort({ createdAt: -1 });
+    const post = await Blog.find(query)
+      .populate("author", "email")
+      .sort({ createdAt: -1 });
     res.status(200).send({
       message: "All Posts Retrieved Successfully!",
       post: post,
@@ -73,7 +75,10 @@ router.get("/:id", async (req, res) => {
     if (!post) {
       return res.status(404).send({ message: "Post Not Found" });
     }
-    const comment = await Comment.find({postId: postId}).populate('user', 'username email' )
+    const comment = await Comment.find({ postId: postId }).populate(
+      "user",
+      "username email"
+    );
     res.status(200).send({
       message: "post Retrieved successfully",
       post: post,
@@ -110,54 +115,55 @@ router.patch("/update-post/:id", verifyToken, async (req, res) => {
 });
 
 // delete a Blog
-router.delete("/:id", verifyToken, async(req, res) =>{
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Blog.findByIdAndDelete(postId);
 
-    if(!post){
-      return res.status(404).send({message: "Post Not Found"})
-    } 
-    
+    if (!post) {
+      return res.status(404).send({ message: "Post Not Found" });
+    }
+
     // deleted related comment
-    await Comment.deleteMany({postId: postId})
-    
+    await Comment.deleteMany({ postId: postId });
+
     res.status(201).send({
       message: "Post Deleted Successfully!",
       post: post,
     });
-
   } catch (error) {
     console.error("Error Deleting post", error);
     res.status(500).send({ message: "Error Deleting post" });
   }
-})
+});
 
 //releated Blog
-router.get("/related:id", async(req, res)=>{
+router.get("/related:id", async (req, res) => {
   try {
-    const {id} = req.params;
-    if(!id){
-      return res.status(400).send({message: "Post Id is required"})
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).send({ message: "Post Id is required" });
     }
     const blog = await Blog.findById(id);
 
-    if(!blog){
-      return res.status(404).send({message: "Post Not Found"})
+    if (!blog) {
+      return res.status(404).send({ message: "Post Not Found" });
     }
-    const titleRegex = new RegExp(blog.title.split(' ').join('|'), 'i')
+    const titleRegex = new RegExp(blog.title.split(" ").join("|"), "i");
 
     const releatedQuery = {
-      _id: {$ne: id}, // exclude the current blog by id
-      title: {$regex: titleRegex}
-    }
+      _id: { $ne: id }, // exclude the current blog by id
+      title: { $regex: titleRegex },
+    };
 
     const releatedPost = await Blog.find(releatedQuery);
-    res.status(200).send({message : "Related post Found!", post: releatedPost})
+    res
+      .status(200)
+      .send({ message: "Related post Found!", post: releatedPost });
   } catch (error) {
     console.error("Error fetching related  post", error);
     res.status(500).send({ message: "Error fetching related  post" });
   }
-})
+});
 
 module.exports = router;

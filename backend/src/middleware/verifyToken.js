@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) =>{
             return res.status(401).send({message: "invalid token provided"})
         }
         req.userId = decoded.userId;
-        req.role = decoded.userId;
+        req.role = decoded.role;
         next();
 
     } catch (error) {
