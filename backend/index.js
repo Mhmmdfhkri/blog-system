@@ -1,25 +1,27 @@
 const express = require("express");
 const app = express();
-const cors = require("cors")
-require('dotenv').config()
+const cors = require("cors");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 5000;
 
-
-// parse option
 app.use(express.json());
-app.use(cors())
+// parse option
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, 
+  })
+);
 
 // routes
 const blogRoutes = require("./src/routes/blog.route.js");
 const commentRoutes = require("./src/routes/comment.route.js");
-const userRoutes = require("./src/routes/auth.user.route.js")
+const userRoutes = require("./src/routes/auth.user.route.js");
 
 app.use("/api/auth", userRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/comments", commentRoutes);
-
-
 
 async function main() {
   await mongoose.connect(process.env.MONGODB_URL);
