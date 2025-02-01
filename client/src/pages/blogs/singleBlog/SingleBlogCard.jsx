@@ -27,8 +27,15 @@ function SingleBlogCard({blog}) {
         </div>
 
         {/* blog detail */}
-        <div>
+        <div className='mt-8 space-y-4 '>
             <div dangerouslySetInnerHTML={{ __html: htmlContent }} className='space-y-3 editorjsdiv'/>
+
+
+            <div>
+                <span className='text-lg font-medium'>Rating: </span>
+                <span>{rating} (base on 2,370 reviews)</span>
+            </div>
+        
         </div>
     </div>
     </>

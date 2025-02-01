@@ -12,9 +12,16 @@ export const blogApi = createApi({
         `blogs?search=${search}&category=${category}&location=${location}`,
     }),
     fetchBlogById: builder.query({
-        query: (id) => `/blogs/${id}`,
-      }),
+      query: (id) => `/blogs/${id}`,
+    }),
+    fetchRelatedBlogs: builder.query({
+      query: (id) => `/blogs/related/${id}`,
+    }),
   }),
 });
 
-export const { useFetchBlogsQuery, useFetchBlogByIdQuery } = blogApi;
+export const {
+  useFetchBlogsQuery,
+  useFetchBlogByIdQuery,
+  useFetchRelatedBlogsQuery,
+} = blogApi;

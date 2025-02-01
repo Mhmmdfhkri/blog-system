@@ -137,7 +137,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 });
 
 //releated Blog
-router.get("/related:id", async (req, res) => {
+router.get("/related/:id", async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
@@ -158,7 +158,8 @@ router.get("/related:id", async (req, res) => {
     const releatedPost = await Blog.find(releatedQuery);
     res
       .status(200)
-      .send({ message: "Related post Found!", post: releatedPost });
+      .send(releatedPost);
+
   } catch (error) {
     console.error("Error fetching related  post", error);
     res.status(500).send({ message: "Error fetching related  post" });
