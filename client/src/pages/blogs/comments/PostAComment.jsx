@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux"
 import { usePostCommentMutation } from "../../../redux/features/comments/commentApi";
+import { useFetchBlogByIdQuery } from "../../../redux/features/blogs/blogsApi";
 
 const PostAComment = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const PostAComment = () => {
   const navigate = useNavigate()
   // console.log(user)
   const [postComment] = usePostCommentMutation();
+  const {refetch} = useFetchBlogByIdQuery(id, {skip: !id});
   
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -27,6 +29,9 @@ const PostAComment = () => {
     try {
       const response = await postComment(newComment).unwrap();
       console.log(response)
+      alert('Comment Posted Successfully')
+      setComment('');
+      refetch()
     } catch (error) {
       alert('An Error occured posting Comment')
     }

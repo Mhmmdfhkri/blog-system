@@ -74,13 +74,12 @@ router.get("/:id", async (req, res) => {
     if (!post) {
       return res.status(404).send({ message: "Post Not Found" });
     }
-    const comment = await Comment.find({ postId: postId }).populate(
+    const comments = await Comment.find({ postId: postId }).populate(
       "user",
       "username email"
     );
     res.status(200).send({
-      message: "post Retrieved successfully",
-      post: post,
+      post, comments  
     });
   } catch (error) {
     console.error("Error Fatching Single post", error);
