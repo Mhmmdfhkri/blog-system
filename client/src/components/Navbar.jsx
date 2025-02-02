@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector} from 'react-redux'
 import { IoMenuSharp } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import avatarImg from "../assets/commentor.png"
+import { useLogoutUserMutation } from "../redux/features/auth/authApi";
+import { logout } from "../redux/features/auth/authSlice";
 
 const navLists = [
   {
@@ -24,7 +28,20 @@ const navLists = [
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {user} = useSelector((state) => state.auth);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const dispatch = useDispatch()
+  const [logoutUser] = useLogoutUserMutation() 
+
+  const handleLogout= async () =>{
+    try {
+      await logoutUser().unwrap();
+      dispatch(logout())
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <header className="bg-white py-6 border" >
@@ -43,9 +60,25 @@ function Navbar() {
               </NavLink>
             </li>
           ))}
-          <li>
-            <NavLink to="/login">Login</NavLink>
-          </li>
+
+          {/* render btn base on user login activity */}
+          {
+            user && user.role === "user" ? (<li className="flex items-center gap-3">
+              <img src={avatarImg} alt="" className="size-8"/>
+              <button className="bg-[#1E73BE] px-4 py-1.5 text-white rounded-sm"
+              onClick={handleLogout}>Logout</button>
+            </li>) : (<li>
+              <NavLink to="/login">Login</NavLink>
+            </li>)
+          }
+
+          {
+            user && user.role === "admin" && (<li className="flex items-center gap-3">
+              <img src={avatarImg} alt="" className="size-8"/>
+              <Link to="/dashboard" ><button className="bg-[#1E73BE] px-4 py-1.5 text-white rounded-sm">Dashboard</button></Link>
+            </li>)
+          }
+          
         </ul>
         {/* toggleMenu */}
         <div className="flex items-center sm:hidden">
