@@ -8,6 +8,11 @@ import PrivacyPolicy from "../pages/miniPage/PrivacyPolicy";
 import SingleBlog from "../pages/blogs/singleBlog/SingleBlog.jsx";
 import Login from "../pages/user/Login.jsx";
 import Register from "../pages/user/Register.jsx";
+import AdminLayout from "../pages/admin/AdminLayout.jsx";
+import Dashboard from "../pages/admin/dashboard/Dashboard.jsx";
+import Addpost from "../pages/admin/post/Addpost.jsx";
+import ManagePost from "../pages/admin/post/ManagePost.jsx";
+import ManageUser from "../pages/admin/user/ManageUser.jsx";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +46,28 @@ const router = createBrowserRouter([
         {
           path: "/register",
           element: <Register />
+        },
+        {
+          path: "dashboard",
+          element: <privateRouter><AdminLayout/></privateRouter>,  // it will be rotected by the admin: Use Private Router
+          children: [
+            {
+              path: '',
+              element: <Dashboard/>
+            },
+            {
+              path: 'add-new-post',
+              element: <Addpost/>
+            },
+            {
+              path: 'manage-items',
+              element: <ManagePost/>
+            },
+            {
+              path: 'users',
+              element: <ManageUser/>
+            }
+          ]
         }
       ]
     },
