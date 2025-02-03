@@ -88,7 +88,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // update a Blog Post
-router.patch("/update-post/:id", verifyToken, async (req, res) => {
+router.patch("/update-post/:id", verifyToken, isAdmin, async (req, res) => {
   try {
     const postId = req.params.id;
     const updatedPost = await Blog.findByIdAndUpdate(
@@ -113,7 +113,7 @@ router.patch("/update-post/:id", verifyToken, async (req, res) => {
 });
 
 // delete a Blog
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", verifyToken, isAdmin, async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Blog.findByIdAndDelete(postId);

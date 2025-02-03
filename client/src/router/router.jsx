@@ -13,6 +13,7 @@ import Dashboard from "../pages/admin/dashboard/Dashboard.jsx";
 import Addpost from "../pages/admin/post/Addpost.jsx";
 import ManagePost from "../pages/admin/post/ManagePost.jsx";
 import ManageUser from "../pages/admin/user/ManageUser.jsx";
+import PrivateRouter from "./PrivateRouter.jsx";
 
 const router = createBrowserRouter([
     {
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
         },
         {
           path: "dashboard",
-          element: <privateRouter><AdminLayout/></privateRouter>,  // it will be rotected by the admin: Use Private Router
+          element: <PrivateRouter><AdminLayout/></PrivateRouter>,  // it will be rotected by the admin: Use Private Router
           children: [
             {
               path: '',

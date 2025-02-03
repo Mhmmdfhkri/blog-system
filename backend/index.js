@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
@@ -7,6 +9,9 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 // parse option
+app.use(cookieParser());
+app.use(bodyParser.json({limit: "10mb"}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 app.use(
   cors({
     origin: "http://localhost:5173",
