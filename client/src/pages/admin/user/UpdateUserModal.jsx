@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useUpdateUserMutation } from '../../../redux/features/auth/authApi'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateUserModal = ({user, onClose, onRoleUpdate}) => {
 
@@ -11,7 +13,7 @@ const [updateUserRole] = useUpdateUserMutation()
 const handleUpdateRole = async () => {
     try {
         await updateUserRole({userId: user?._id, role}).unwrap();
-        alert('Role Updated Successfully!')
+        toast.success('Role Updated Successfully!'); 
         onRoleUpdate();
         onClose();
     } catch (error) {

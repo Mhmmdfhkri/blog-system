@@ -3,6 +3,8 @@ import { useDeleteBlogMutation, useFetchBlogsQuery } from "../../../redux/featur
 import { formatDate } from "../../../utilis/formateDat";
 import { Link } from "react-router-dom";
 import {MdModeEdit} from "react-icons/md"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManagePost = () => {
   const [query, setQuery] = useState({ search: "", category: "" });
@@ -12,7 +14,10 @@ const ManagePost = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteBlog(id).unwrap();
-      alert(response.message);
+      toast.success(response.message);
+                           setTimeout(() => {
+                             navigate("/"); 
+                           }, 1000); 
       refetch()
       
     } catch (error) {
@@ -105,33 +110,13 @@ const ManagePost = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap items-center md:justify-between justify-center">
               <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                <div className="text-sm text-blueGray-500 font-semibold py-1">
-                  Made with{" "}
-                  <a
-                    href="https://www.creative-tim.com/product/notus-js"
-                    className="text-blueGray-500 hover:text-gray-800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Notus JS
-                  </a>{" "}
-                  by{" "}
-                  <a
-                    href="https://www.creative-tim.com"
-                    className="text-blueGray-500 hover:text-blueGray-800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {" "}
-                    Creative Tim
-                  </a>
-                  .
-                </div>
+                
               </div>
             </div>
           </div>
         </footer>
       </section>
+      <ToastContainer />
     </>
   );
 };

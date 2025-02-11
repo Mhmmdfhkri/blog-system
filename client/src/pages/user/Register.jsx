@@ -30,7 +30,7 @@ const Register = () => {
   }
 
   return (
-    <div className="max-w-sm bg-white mx-auto p-8 mt-36">
+    <div className="max-w-sm bg-white mx-auto p-8 mt-36 mb-36">
       <h2 className="text-2xl font-semibold pt-5 ">Please Register</h2>
       <form
       onSubmit={handleRegister}

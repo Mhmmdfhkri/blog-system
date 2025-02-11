@@ -5,6 +5,8 @@ import EditorjsList from "@editorjs/list";
 import Header from "@editorjs/header";
 import { useFetchBlogByIdQuery, useUpdateBlogMutation } from "../../../redux/features/blogs/blogsApi";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -70,9 +72,11 @@ const UpdatePost = () => {
       // console.log(updatedPost)
       const response = await updateBlog({id, ...updatedPost}).unwrap();
       console.log(response);
-      alert("Blog is Updated successfully");
+      toast.success('Blog is Updated successfully');
+             setTimeout(() => {
+               navigate("/dashboard"); 
+             }, 1000); 
       refetch()
-      navigate("/dashboard");
 
 
     } catch (error) {
@@ -186,6 +190,7 @@ const UpdatePost = () => {
           Update Blog Text
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

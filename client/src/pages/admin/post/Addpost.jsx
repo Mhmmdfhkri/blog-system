@@ -5,6 +5,8 @@ import EditorjsList from '@editorjs/list';
 import Header from '@editorjs/header';
 import { usePostBlogMutation } from "../../../redux/features/blogs/blogsApi";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Addpost = () => {
   const editorRef = useRef(null)
@@ -64,8 +66,10 @@ const Addpost = () => {
 
         const response = await postBlog(newPost).unwrap();
         console.log(response);
-        alert("Blog is Posted successfully")
-        navigate('/')
+        toast.success('Blog is Posted successfully');
+                     setTimeout(() => {
+                       navigate("/"); 
+                     }, 1000); 
         
     } catch (error) {
       console.log("Failed To Submit post", error)
@@ -76,7 +80,7 @@ const Addpost = () => {
   }
 
   return (
-    <div className="bg-white md:p-8 p-2">
+    <div className="bg-white  md:p-8 p-2">
       <h2 className="text-2xl font-semibold">Create A New Blog Post</h2>
       <form 
       onSubmit={handleSubmit}
@@ -177,6 +181,7 @@ const Addpost = () => {
         }
         <button disabled={isLoading} type="submit" className="w-full mt-5 bg-primary hover:bg-indigo-500 text-white font-medium py-3 rounded-md">Add New Blog</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

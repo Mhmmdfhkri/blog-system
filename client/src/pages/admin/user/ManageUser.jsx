@@ -6,6 +6,8 @@ import {
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import UpdateUserModal from "./UpdateUserModal";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ManageUser = () => {
   const [selectedUser, setSelectedUser] = useState("null");
@@ -18,7 +20,7 @@ const ManageUser = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteUser(id).unwrap();
-      alert("User Deleted Successfully");
+      toast.success('User Deleted Successfully');
       refetch();
     } catch (error) {
       console.error("Failed To delete User", error);
@@ -131,28 +133,7 @@ const ManageUser = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap items-center md:justify-between justify-center">
               <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                <div className="text-sm text-blueGray-500 font-semibold py-1">
-                  Made with{" "}
-                  <a
-                    href="https://www.creative-tim.com/product/notus-js"
-                    className="text-blueGray-500 hover:text-gray-800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Notus JS
-                  </a>{" "}
-                  by{" "}
-                  <a
-                    href="https://www.creative-tim.com"
-                    className="text-blueGray-500 hover:text-blueGray-800"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {" "}
-                    Creative Tim
-                  </a>
-                  .
-                </div>
+              
               </div>
             </div>
           </div>
@@ -166,6 +147,7 @@ const ManageUser = () => {
           onRoleUpdate={refetch}
         />
       )}
+      <ToastContainer />
     </>
   );
 };

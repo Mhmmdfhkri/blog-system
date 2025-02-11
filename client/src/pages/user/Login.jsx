@@ -4,6 +4,8 @@
  import { Link, useNavigate } from 'react-router-dom';
  import { useDispatch } from 'react-redux';
  import { setUser } from '../../redux/features/auth/authSlice';
+ import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
  
  const Login = () => {
    const [email, setEmail] = useState('');
@@ -27,8 +29,10 @@
        console.log(response)
        const { token, user } = response;
        dispatch(setUser({ user }));
-       alert('Login successful');
-       navigate('/');
+       toast.success('Login Successfully');
+             setTimeout(() => {
+               navigate("/"); 
+             }, 1000); 
        
      } catch (err) {
        setMessage("Please provide a valid email and password!");
@@ -38,7 +42,7 @@
  
  
    return (
-     <div className='max-w-sm bg-white mx-auto p-8 mt-36'>
+     <div className='max-w-sm bg-white mx-auto p-8 mt-36 mb-36'>
        <h2 className='text-2xl font-semibold pt-5'>Please login</h2>
        <form onSubmit={handleLogin} className='space-y-5 max-w-sm mx-auto pt-8'>
          <input type="text" value={email} 
@@ -60,6 +64,7 @@
          <p className='my-5 text-center'>Don't have an account? 
            <Link to="/register" className='text-red-700 italic'> Register </Link> here.
          </p>
+         <ToastContainer />
      </div>
    );
  };

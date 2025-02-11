@@ -70,7 +70,9 @@ router.get("/:id", async (req, res) => {
   try {
     console.log(req.params.id);
     const postId = req.params.id;
-    const post = await Blog.findById(postId);
+    //const post = await Blog.findById(postId);
+    const post = await Blog.findById(postId).populate("author", "user username");
+
     if (!post) {
       return res.status(404).send({ message: "Post Not Found" });
     }
@@ -79,7 +81,7 @@ router.get("/:id", async (req, res) => {
       "username email"
     );
     res.status(200).send({
-      post, comments  
+      post, comments,
     });
   } catch (error) {
     console.error("Error Fatching Single post", error);
