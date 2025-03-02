@@ -29,7 +29,7 @@ import 'react-toastify/dist/ReactToastify.css';
        console.log(response)
        const { token, user } = response;
        dispatch(setUser({ user }));
-       toast.success('Login Successfully');
+       toast.success('Login Berhasil!');
              setTimeout(() => {
                navigate("/"); 
              }, 1000); 

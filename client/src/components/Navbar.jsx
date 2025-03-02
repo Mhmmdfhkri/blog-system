@@ -16,10 +16,10 @@ const navLists = [
     name: "About Us",
     path: "/about-us",
   },
-  {
-    name: "Privacy Policy",
-    path: "/privacy-policy",
-  },
+  // {
+  //   name: "Privacy Policy",
+  //   path: "/privacy-policy",
+  // },
   {
     name: "Contact Us",
     path: "/contact-us",

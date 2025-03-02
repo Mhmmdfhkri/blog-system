@@ -24,10 +24,7 @@ const Hero = () => {
         Berbakti, Berkarya, <span className="text-indigo-600">Berarti</span> 
         </h1>
         <p className="py-4">
-        Discovering hotels with rooftop pools near you! Whether you’re planning
-        a luxurious staycation or a weekend getaway, our curated selection of
-        hotels with rooftop pools will help you beat the heat and elevate your
-        travel experience.
+        FLP Ranting Unhas adalah komunitas kepenulisan yang mewadahi para penulis untuk berkarya, belajar, dan berbagi dalam dunia literasi.
       </p>
       </div>
       

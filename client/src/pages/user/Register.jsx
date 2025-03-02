@@ -8,33 +8,34 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const [registerUser, {isLoading}] = useRegisterUserMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const data = {
       username,
       email,
-      password
-    }
+      password,
+    };
     try {
       await registerUser(data).unwrap();
-      alert("Registration Succcessfully!")
-      navigate("/login")
+      alert("Akun berhasil dibuat!");
+      navigate("/login");
     } catch (error) {
-    setMessage("Registration Failed") 
-    // alert("Registration Failed") 
+      setMessage("Registration Failed");
+      // alert("Registration Failed")
     }
-  }
+  };
 
   return (
     <div className="max-w-sm bg-white mx-auto p-8 mt-36 mb-36">
       <h2 className="text-2xl font-semibold pt-5 ">Please Register</h2>
       <form
-      onSubmit={handleRegister}
-      className="space-y-5 max-x-sm mx-auto pt-8">
+        onSubmit={handleRegister}
+        className="space-y-5 max-x-sm mx-auto pt-8"
+      >
         <input
           type="text"
           value={username}
@@ -61,7 +62,7 @@ const Register = () => {
         />
         {message && <p className="text-red-500">{message}</p>}
         <button className="w-full mt-5 bg-primary hover:bg-indigo-500 text-white font-medium py-3 rounded-md">
-          Register 
+          Register
         </button>
       </form>
       <p className="my-5 text-center ">

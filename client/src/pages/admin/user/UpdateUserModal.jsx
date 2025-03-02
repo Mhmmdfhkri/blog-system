@@ -13,11 +13,11 @@ const [updateUserRole] = useUpdateUserMutation()
 const handleUpdateRole = async () => {
     try {
         await updateUserRole({userId: user?._id, role}).unwrap();
-        toast.success('Role Updated Successfully!'); 
+        toast.success('Role berhasil diupdate!'); 
         onRoleUpdate();
         onClose();
     } catch (error) {
-        console.error("Failed To Update", error)
+        console.error("Gagal update role", error)
     }
 }
   return (

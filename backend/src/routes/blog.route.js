@@ -34,6 +34,7 @@ router.get("/", async (req, res) => {
         ...query,
         $or: [
           { title: { $regex: search, $options: "i" } },
+          { category: { $regex: search, $options: "i" } },
           { content: { $regex: search, $options: "i" } },
         ],
       };
@@ -128,7 +129,7 @@ router.delete("/:id", verifyToken, isAdmin, async (req, res) => {
     await Comment.deleteMany({ postId: postId });
 
     res.status(201).send({
-      message: "Post Deleted Successfully!",
+      message: "Post Berhasil dihapus!",
       post: post,
     });
   } catch (error) {
@@ -150,10 +151,14 @@ router.get("/related/:id", async (req, res) => {
       return res.status(404).send({ message: "Post Not Found" });
     }
     const titleRegex = new RegExp(blog.title.split(" ").join("|"), "i");
+    const categoryRegex = new RegExp(blog.category.split(" ").join("|"), "i");
 
     const releatedQuery = {
       _id: { $ne: id }, // exclude the current blog by id
-      title: { $regex: titleRegex },
+      $or: [
+        { title: { $regex: titleRegex } },
+        { category: { $regex: categoryRegex } }
+      ],
     };
 
     const releatedPost = await Blog.find(releatedQuery);

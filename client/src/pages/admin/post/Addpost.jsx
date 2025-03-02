@@ -66,7 +66,7 @@ const Addpost = () => {
 
         const response = await postBlog(newPost).unwrap();
         console.log(response);
-        toast.success('Blog is Posted successfully');
+        toast.success('Post Berhasil ditambahkan!');
                      setTimeout(() => {
                        navigate("/"); 
                      }, 1000); 

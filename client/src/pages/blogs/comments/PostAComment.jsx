@@ -19,7 +19,7 @@ const PostAComment = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     if(!user){
-      toast.error('Please Login to Comment on this post');
+      toast.error('Tolong login terlebih dahulu!');
       setTimeout(() => {
         navigate("/login"); // Navigasi ke login setelah 2 detik
       }, 2000); 
@@ -34,7 +34,7 @@ const PostAComment = () => {
     try {
       const response = await postComment(newComment).unwrap();
       console.log(response)
-      toast.success("Comment Posted Successfully");
+      toast.success("komentar berhasil ditambahkan!");
       // alert('Comment Posted Successfully')
       setComment('');
       refetch()

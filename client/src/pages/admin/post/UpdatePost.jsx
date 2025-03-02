@@ -3,10 +3,13 @@ import { useSelector } from "react-redux";
 import EditorJS from "@editorjs/editorjs";
 import EditorjsList from "@editorjs/list";
 import Header from "@editorjs/header";
-import { useFetchBlogByIdQuery, useUpdateBlogMutation } from "../../../redux/features/blogs/blogsApi";
+import {
+  useFetchBlogByIdQuery,
+  useUpdateBlogMutation,
+} from "../../../redux/features/blogs/blogsApi";
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -19,14 +22,19 @@ const UpdatePost = () => {
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
 
-  const [updateBlog] = useUpdateBlogMutation()
+  const [updateBlog] = useUpdateBlogMutation();
 
-  const {data: blog={}, error, isLoading, refetch} = useFetchBlogByIdQuery(id)
+  const {
+    data: blog = {},
+    error,
+    isLoading,
+    refetch,
+  } = useFetchBlogByIdQuery(id);
 
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if(blog.post){
+    if (blog.post) {
       const editor = new EditorJS({
         holder: "editorjs",
         onReady: () => {
@@ -43,15 +51,15 @@ const UpdatePost = () => {
             inlineToolbar: true,
           },
         },
-        data: blog.post.content
+        data: blog.post.content || {},
       });
-  
+
       return () => {
         editor.destroy();
         editorRef.current = null;
       };
     }
-  }, []);
+  }, [blog.post]);
 
   const navigate = useNavigate();
 
@@ -63,6 +71,7 @@ const UpdatePost = () => {
       const updatedPost = {
         title: title || blog.post.title,
         coverImg: coverImg || blog.post.coverImg,
+        category,
         content,
         description: metaDescription || blog.post.description,
         author: user?._id,
@@ -70,15 +79,13 @@ const UpdatePost = () => {
       };
 
       // console.log(updatedPost)
-      const response = await updateBlog({id, ...updatedPost}).unwrap();
+      const response = await updateBlog({ id, ...updatedPost }).unwrap();
       console.log(response);
-      toast.success('Blog is Updated successfully');
-             setTimeout(() => {
-               navigate("/dashboard"); 
-             }, 1000); 
-      refetch()
-
-
+      toast.success("Post Berhasil diupdate!");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+      refetch();
     } catch (error) {
       console.log("Failed To Submit post", error);
       setMessage("Failed To Submit Post. Please Try Again");

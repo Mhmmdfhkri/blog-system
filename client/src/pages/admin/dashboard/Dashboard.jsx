@@ -19,6 +19,7 @@ const Dashboard = () => {
   const {data: comments = []} = useGetCommentsQuery();
   const {data: users = {}} = useGetUserQuery();
   const adminCounts = users.users?.filter(user => user.role === 'admin').length;
+  const userCounts = users.users?.filter(user => user.role === 'user').length;
   // console.log(adminCounts)
 
   return (
@@ -35,7 +36,7 @@ const Dashboard = () => {
         <div className='flex flex col md:flex-row justify-center gap-8 pt-8'>
           <div className='bg-indigo-100 py-6 w-full rounded-sm space-y-1 flex flex-col items-center'>
           <FiUser className='size-8 text-indigo-600'/>
-          <p>2 Users</p>
+          <p>{userCounts} User{userCounts !== 1 ? 's' : ''}</p>
           </div>
 
           <div className='bg-red-100 py-6 w-full rounded-sm space-y-1 flex flex-col items-center'>

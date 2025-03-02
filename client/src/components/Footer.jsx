@@ -8,8 +8,7 @@ const Footer = () => {
       <div className="w-full lg:w-1/3 mb-6 lg:mb-0">
         <h2 className="text-2xl font-semibold mb-4">About Us</h2>
         <p className="text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus interdum sapien euismod est
-          venenatis, nec dictum risus volutpat.
+        FLP Ranting Unhas adalah komunitas kepenulisan yang mewadahi para penulis untuk berkarya, belajar, dan berbagi dalam dunia literasi.
         </p>
       </div>
 
@@ -20,13 +19,13 @@ const Footer = () => {
             <a href="/" className="hover:text-blue-400">Home</a>
           </li>
           <li>
-            <a href="/about" className="hover:text-blue-400">About</a>
+            <a href="/about" className="hover:text-blue-400">About Us</a>
           </li>
           <li>
-            <a href="/services" className="hover:text-blue-400">Services</a>
+            <a href="/services" className="hover:text-blue-400">Contact us</a>
           </li>
           <li>
-            <a href="/contact" className="hover:text-blue-400">Contact</a>
+            <a href="/contact" className="hover:text-blue-400">Login</a>
           </li>
         </ul>
       </div>
@@ -52,7 +51,7 @@ const Footer = () => {
 
     <div className="mt-8 border-t border-gray-600 pt-4 text-center">
       <p className="text-sm">
-        &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+        &copy; {new Date().getFullYear()} Forum Lingkar Pena Ranting Unhas. All rights reserved.
       </p>
     </div>
   </div>

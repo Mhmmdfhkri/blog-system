@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function About() {
   return (
@@ -18,9 +18,14 @@ function About() {
           About <span className="text-indigo-600">Forum Lingkar Pena</span>
         </h2>
         <p className="text-gray-700 mt-4 leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, commodi
-          doloremque, fugiat illum magni minus nisi nulla numquam obcaecati placeat quia,
-          repellat tempore voluptatum.
+          Forum Lingkar Pena (FLP) Ranting Unhas merupakan komunitas kepenulisan di
+          Universitas Hasanuddin yang berkomitmen untuk mengembangkan budaya
+          literasi dan kreativitas dalam menulis. Kami menjadi wadah bagi
+          mahasiswa yang memiliki minat di bidang kepenulisan, baik fiksi maupun
+          nonfiksi, melalui diskusi, pelatihan, dan penerbitan karya. Dengan
+          semangat berbagi dan belajar, FLP Ranting Unhas terus berupaya
+          menciptakan generasi penulis yang berkualitas, berintegritas, dan
+          berdampak bagi masyarakat.
         </p>
       </div>
     </div>

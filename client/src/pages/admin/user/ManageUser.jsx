@@ -20,10 +20,10 @@ const ManageUser = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteUser(id).unwrap();
-      toast.success('User Deleted Successfully');
+      toast.success('User berhasil dihapus');
       refetch();
     } catch (error) {
-      console.error("Failed To delete User", error);
+      console.error("Gagal menghapus user", error);
     }
   };
 
