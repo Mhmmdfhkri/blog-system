@@ -16,15 +16,17 @@ const Blogs = () => {
   //const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    setQuery({ search, category });
-  }, [search, category]); // Update query whenever search or category change
+    if (search || category) {
+      setQuery({ search, category });
+    }
+  }, [search, category]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
   const handleCategoryChange = (e) => {
-    setCategory(e.target.value); // Handle category change (if needed)
+    setCategory(e.target.value);
   };
 
   return (
@@ -114,61 +116,74 @@ const Blogs = () => {
           </div>
         )}
 
-        {/* Blog List (postingan lainnya) */}
-
+        {/* ini tidak bisa fitur searchnya */}
         <div className="my-8 text-2xl text-gray-600">
           <h1>Recent Post</h1>
-          <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
-            {blogs.length > 0 ? (
-              blogs.map((blog) => (
-                <Link
-                  to={`/blogs/${blog._id}`}
+          {blogs.length > 0 ? (
+            <div className="w-full flex flex-col gap-10">
+              {blogs.map((blog, index) => (
+                <div
                   key={blog._id}
-                  className="shadow-md"
+                  className="flex flex-col lg:flex-row justify-between gap-4"
                 >
-                  {/* Render Image */}
-                  <img
-                    src={blog?.coverImg}
-                    alt={blog.title}
-                    className="h-80 w-full object-cover rounded-2xl"
-                  />
-
-                  {/* Render Title */}
-                  <h2 className="text-xl p-4">{blog?.title}</h2>
-
-                  {/* Render Date and Category */}
-                  <div className="flex items-center mt-1 gap-2 text-gray-400 text-sm px-4">
-                    {/* <span>Written By</span> */}
-                    {/* <Link to={`/profile/${author}`} className="text-blue-800">
-                      {author}
-                    </Link> */}
-                    <span>Category on</span>
-                    <Link
-                      to={`/category/${blog?.category}`}
-                      className="text-blue-800"
-                    >
-                      {blog?.category}
+                  {/* Blog Image */}
+                  <div className="w-full lg:w-1/3 aspect-video">
+                    <Link to={`/blogs/${blog._id}`}>
+                      <img
+                        src={blog?.coverImg}
+                        className="rounded-3xl object-cover w-full h-full"
+                        alt={blog?.title}
+                      />
                     </Link>
                   </div>
 
-                  {/* Render Description */}
-                  <p className="text-sm p-4">
-                    {blog?.description?.split(" ").slice(0, 10).join(" ")}...
-                  </p>
+                  {/* Blog Details */}
+                  <div className="w-full lg:w-2/3 flex flex-col justify-between p-2 sm:p-4">
+                    <div className="flex items-center gap-3 sm:gap-5 text-sm sm:text-base md:text-lg lg:text-xl">
+                      <h1 className="font-semibold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                      {index + 1 > 9 ? `${index + 1}.` : `0${index + 1}.`}
+                      </h1>
 
-                  {/* Read More Link */}
-                  <Link
-                    to={`/blogs/${blog._id}`}
-                    className="underline text-blue-800 text-sm p-4"
-                  >
-                    Read More
-                  </Link>
-                </Link>
-              ))
-            ) : (
-              <div>No blogs found matching the search criteria.</div>
-            )}
-          </div>
+                      <Link
+                        to={`/category/${blog?.category}`}
+                        className="text-blue-800 text-base sm:text-lg md:text-xl lg:text-2xl font-medium"
+                      >
+                        {blog?.category}
+                      </Link>
+
+                      <span className="text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl">
+                        {new Date(blog?.createdAt).toDateString()}
+                      </span>
+                    </div>
+
+                    {/* Title and Description */}
+                    <div className="flex flex-col mt-4 flex-grow space-y-3 sm:space-y-5">
+                      <Link
+                        to={`/blogs/${blog._id}`}
+                        className="text-lg sm:text-xl md:text-3xl lg:text-2xl xl:text-3xl font-semibold block"
+                      >
+                        {blog?.title}
+                      </Link>
+                      <p className="text-base sm:text-lg md:text-xl lg:text-lg xl:text-xl">
+                        {blog?.description?.split(" ").slice(0, 20).join(" ")}
+                        ...
+                      </p>
+                    </div>
+
+                    {/* Read More Link */}
+                    <Link
+                      to={`/blogs/${blog._id}`}
+                      className="underline text-blue-800 text-sm block"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>No blogs found matching the search criteria.</div>
+          )}
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ function SingleBlogCard({blog}) {
 
             <div>
                 <span className='text-lg font-medium'>Rating: </span>
-                <span>{rating} (base on 2,370 reviews)</span>
+                <span>{rating}</span>
             </div>
         
         </div>
