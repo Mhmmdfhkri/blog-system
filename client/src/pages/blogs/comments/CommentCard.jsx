@@ -15,7 +15,7 @@ const CommentCard = ({comments}) => {
         <div >
             {
                 comments?.length > 0 ? <div>
-                    <h3 className='text-lg font-medium'>All Comments</h3>
+                    <h3 className='text-lg font-medium'>Semua Komentar</h3>
                     <div>{
                         comments.map((comment, index) => (
                             <div key={index} className='mt-4 bg-white p-4 rounded-2xl'>
@@ -33,7 +33,7 @@ const CommentCard = ({comments}) => {
                             </div>
                         ))
                         }</div>
-                </div> : <div className='text-lg font-medium'>No Comments Found</div> 
+                </div> : <div className='text-lg font-medium'>Tidak Ada komentar</div> 
             }
         </div>
 

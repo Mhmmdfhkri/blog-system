@@ -1,55 +1,131 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import EditorJS from '@editorjs/editorjs';
-import EditorjsList from '@editorjs/list';
-import Header from '@editorjs/header';
+import EditorJS from "@editorjs/editorjs";
+import EditorjsList from "@editorjs/list";
+import Header from "@editorjs/header";
 import { usePostBlogMutation } from "../../../redux/features/blogs/blogsApi";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import Quote from '@editorjs/quote';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import Quote from "@editorjs/quote";
+import "react-toastify/dist/ReactToastify.css";
+import Embed from "@editorjs/embed";
+import Table from "@editorjs/table";
+import InlineImage from "editorjs-inline-image";
+import ColorPicker from "editorjs-color-picker";
 import SimpleImage from "@editorjs/simple-image";
-import Embed from '@editorjs/embed';
+import editorjsCodeflask from "@calumk/editorjs-codeflask";
+import ToggleBlock from 'editorjs-toggle-block';
+import Paragraph from 'editorjs-paragraph-with-alignment';
+import Delimiter from '@coolbytes/editorjs-delimiter';
+import ChangeCase from 'editorjs-change-case';
+import Annotation from 'editorjs-annotation';
+
+
+// terbaru
+import AudioPlayer from 'editorjs-audio-player';
 
 const Addpost = () => {
-  const editorRef = useRef(null)
+  const editorRef = useRef(null);
   const [title, setTitle] = useState("");
   const [coverImg, setcoverImg] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
   const [category, setCategory] = useState("");
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
-  
-  const [postBlog, {isLoading}] = usePostBlogMutation()
 
-  const {user} = useSelector((state) => state.auth);
+  const [postBlog, { isLoading }] = usePostBlogMutation();
+
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const editor = new EditorJS({
-      holder: 'editorjs',
+      holder: "editorjs",
       onReady: () => {
         editorRef.current = editor;
       },
       autofocus: true,
       tools: {
         header: {
-          class: Header, 
-          inlineToolbar: true,
+          class: Header,
+          config: {
+            placeholder: "Enter a header",
+            levels: [1, 2, 3, 4],
+            defaultLevel: 1,
+          },
+        },
+        changeCase: {
+          class: ChangeCase,
+          config: {
+            showLocaleOption: true, // enable locale case options
+            locale: 'tr' // or ['tr', 'TR', 'tr-TR']
+          }
+        },  
+        annotation: Annotation,  
+        delimiter: {
+          class: Delimiter,
+          config: {
+            styleOptions: ['star', 'dash', 'line'],
+            defaultStyle: 'star',
+            lineWidthOptions: [8, 15, 25, 35, 50, 60, 100],
+            defaultLineWidth: 25,
+            lineThicknessOptions: [1, 2, 3, 4, 5, 6],
+            defaultLineThickness: 2,
+          }
         },
         list: {
           class: EditorjsList,
           inlineToolbar: true,
         },
+        toggle: {
+          class: ToggleBlock,
+          inlineToolbar: true,
+        },
+        code: editorjsCodeflask,
+        images: SimpleImage,
+        ColorPicker: {
+          class: ColorPicker,
+        },
+        table: {
+          class: Table,
+          inlineToolbar: true,
+          config: {
+            rows: 2,
+            cols: 3,
+            maxRows: 5,
+            maxCols: 5,
+          },
+        },
+        // code: CodeTool,
         quote: {
           class: Quote,
           inlineToolbar: true,
-           config: {
-             quotePlaceholder: 'masukkan quote',
-             captionPlaceholder: 'Penulis',
-           },
+          config: {
+            quotePlaceholder: "masukkan quote",
+            captionPlaceholder: "Penulis",
+          },
         },
-      
-        image: SimpleImage,
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
+        },
+        image: {
+          class: InlineImage,
+          inlineToolbar: true,
+          config: {
+            embed: {
+              display: true,
+            },
+            unsplash: {
+              appName: "blog_system",
+              apiUrl: "https://images.unsplash.com",
+              maxResults: 30,
+              imageParams: {
+                q: 85,
+                w: 1500,
+              },
+            },
+          },
+        },
         embed: {
           class: Embed,
           config: {
@@ -59,14 +135,15 @@ const Addpost = () => {
             }
           }
         },
-      }
-    })
+        audioPlayer: AudioPlayer,        
+      },
+    });
 
-    return () =>{
+    return () => {
       editor.destroy();
-      editorRef.current = null
-    }
-  }, [])
+      editorRef.current = null;
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -74,46 +151,41 @@ const Addpost = () => {
     e.preventDefault();
 
     try {
-        const content = await editorRef.current.save();
-        const newPost ={
-          title,
-          coverImg,
-          content,
-          category,
-          description: metaDescription,
-          author: user?._id,
-          rating
-        }
-        // console.log(newPost)
+      const content = await editorRef.current.save();
+      const newPost = {
+        title,
+        coverImg,
+        content,
+        category,
+        description: metaDescription,
+        author: user?._id,
+        rating,
+      };
+      // console.log(newPost)
 
-        const response = await postBlog(newPost).unwrap();
-        console.log(response);
-        toast.success('Post Berhasil ditambahkan!');
-                     setTimeout(() => {
-                       navigate("/"); 
-                     }, 1000); 
-        
+      const response = await postBlog(newPost).unwrap();
+      console.log(response);
+      toast.success("Post Berhasil ditambahkan!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
-      console.log("Failed To Submit post", error)
-      setMessage('Failed To Submit Post. Please Try Again')
+      console.log("Failed To Submit post", error);
+      setMessage("Failed To Submit Post. Please Try Again");
     }
-
-
-  }
+  };
 
   return (
     <div className="bg-white  md:p-8 p-2">
       <h2 className="text-2xl font-semibold">Create A New Blog Post</h2>
-      <form 
-      onSubmit={handleSubmit}
-      className="space-y-5 pt-8">
+      <form onSubmit={handleSubmit} className="space-y-5 pt-8">
         <div className="space-y-4">
           <label className="font-semibold text-xl">Blog Title :</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full inline-block bg-bgPrimary focus:outline-none px-5 py-3"
+            className="w-full mt-4 inline-block bg-bgPrimary focus:outline-none px-5 py-3"
             placeholder="Ex: Puisi"
             required
           />
@@ -188,20 +260,23 @@ const Addpost = () => {
               <label className="font-semibold text-xl">Author :</label>
               <input
                 type="text"
-                value={user?.username || ''}
+                value={user?.username || ""}
                 className="w-full inline-block bg-bgPrimary focus:outline-none px-5 py-3"
                 placeholder={`${user.username} (not Editable)`}
                 disabled
               />
             </div>
-
           </div>
         </div>
 
-        {
-          message && <p className="text-red-500">{message}</p>
-        }
-        <button disabled={isLoading} type="submit" className="w-full mt-5 bg-primary hover:bg-indigo-500 text-white font-medium py-3 rounded-md">Add New Blog</button>
+        {message && <p className="text-red-500">{message}</p>}
+        <button
+          disabled={isLoading}
+          type="submit"
+          className="w-full mt-5 bg-primary hover:bg-indigo-500 text-white font-medium py-3 rounded-md"
+        >
+          Add New Blog
+        </button>
       </form>
       <ToastContainer />
     </div>

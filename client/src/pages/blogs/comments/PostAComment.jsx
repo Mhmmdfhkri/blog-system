@@ -46,7 +46,7 @@ const PostAComment = () => {
   
   return (
     <div className="mt-8">
-      <h3 className="text-lg font-medium mb-3">Leave a comment</h3>
+      <h3 className="text-lg font-medium mb-3">Berikan Komentar</h3>
       <form onSubmit={handleSubmit}>
         <textarea name="text"
         value={comment}

@@ -172,4 +172,29 @@ router.get("/related/:id", async (req, res) => {
   }
 });
 
+
+router.post("/:id/rate", async (req, res) => {
+  try {
+      console.log("Request masuk ke /rate:", req.body); // Debugging
+
+      const { rating } = req.body;
+      if (!rating || typeof rating !== "number") {
+          return res.status(400).json({ message: "Rating harus berupa angka!" });
+      }
+
+      const blog = await Blog.findById(req.params.id);
+      if (!blog) {
+          return res.status(404).json({ message: "Blog tidak ditemukan" });
+      }
+
+      blog.ratings.push(rating);
+      await blog.save();
+
+      res.status(200).json({ message: "Rating berhasil diberikan", blog });
+  } catch (error) {
+      console.error("Error di /rate:", error);
+      res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+});
+
 module.exports = router;

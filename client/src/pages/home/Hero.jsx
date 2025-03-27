@@ -54,22 +54,22 @@ const Hero = () => {
           },
         }}  
         modules={[Pagination, Autoplay]}
-        className="mySwiper"
+        className="mySwiper rounded-2xl"
       >
         <SwiperSlide>
-            <img src={Img1} alt="" className="w-full lg:h-[420px] sm:h-80 h-80"/>
+            <img src={Img1} alt="" className="w-full lg:h-[420px] sm:h-80 h-80 rounded-2xl"/>
         </SwiperSlide>
         <SwiperSlide>
-            <img src={Img5} alt="" className="w-full lg:h-[420px] sm:h-96 h-80"/>
+            <img src={Img5} alt="" className="w-full lg:h-[420px] sm:h-96 h-80 rounded-2xl"/>
         </SwiperSlide>
         <SwiperSlide>
-            <img src={Img3} alt="" className="w-full lg:h-[420px] sm:h-96 h-80"/>
+            <img src={Img3} alt="" className="w-full lg:h-[420px] sm:h-96 h-80 rounded-2xl"/>
         </SwiperSlide>
         <SwiperSlide>
-            <img src={Img4} alt="" className="w-full lg:h-[420px] sm:h-96 h-80"/>
+            <img src={Img4} alt="" className="w-full lg:h-[420px] sm:h-96 h-80 rounded-2xl"/>
         </SwiperSlide>
         <SwiperSlide>
-            <img src={Img2} alt="" className="w-full lg:h-[420px] sm:h-96 h-80"/>
+            <img src={Img2} alt="" className="w-full lg:h-[420px] sm:h-96 h-80 rounded-2xl"/>
         </SwiperSlide>
       </Swiper>
       </div>

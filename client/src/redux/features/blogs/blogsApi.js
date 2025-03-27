@@ -44,7 +44,7 @@ export const blogApi = createApi({
         credentials: "include"
       }),
       invalidatesTags: (result, error, {id}) => [{type: 'Blogs', id}],
-    })
+    }),  
   })
 });
 

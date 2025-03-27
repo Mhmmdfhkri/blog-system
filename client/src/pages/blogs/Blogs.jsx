@@ -4,6 +4,9 @@ import { useFetchBlogsQuery } from "../../redux/features/blogs/blogsApi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import AudioPlayer from 'editorjs-audio-player';
+import EditorJS from "@editorjs/editorjs";
+
 const Blogs = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -28,6 +31,8 @@ const Blogs = () => {
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
+
+  
 
   return (
     <div className="mt-12 container mx-auto">
@@ -118,7 +123,7 @@ const Blogs = () => {
 
         {/* ini tidak bisa fitur searchnya */}
         <div className="my-8 text-2xl text-gray-600">
-          <h1>Recent Post</h1>
+          <h1 className="mb-6 text-4xl">Recent Post</h1>
           {blogs.length > 0 ? (
             <div className="w-full flex flex-col gap-10">
               {blogs.map((blog, index) => (

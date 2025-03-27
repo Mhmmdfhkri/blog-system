@@ -10,6 +10,19 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Quote from "@editorjs/quote";
+import "react-toastify/dist/ReactToastify.css";
+import Embed from "@editorjs/embed";
+import Table from "@editorjs/table";
+import InlineImage from "editorjs-inline-image";
+import ColorPicker from "editorjs-color-picker";
+import SimpleImage from "@editorjs/simple-image";
+import editorjsCodeflask from "@calumk/editorjs-codeflask";
+import ToggleBlock from 'editorjs-toggle-block';
+import Paragraph from 'editorjs-paragraph-with-alignment';
+import Delimiter from '@coolbytes/editorjs-delimiter';
+import ChangeCase from 'editorjs-change-case';
+import Annotation from 'editorjs-annotation';
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -34,32 +47,114 @@ const UpdatePost = () => {
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (blog.post) {
-      const editor = new EditorJS({
-        holder: "editorjs",
-        onReady: () => {
-          editorRef.current = editor;
-        },
-        autofocus: true,
-        tools: {
-          header: {
-            class: Header,
-            inlineToolbar: true,
+    if (!blog?.post) return; // Pastikan blog.post ada sebelum mengaksesnya
+  
+    const editor = new EditorJS({
+      holder: "editorjs",
+      onReady: () => {
+        editorRef.current = editor;
+      },
+      autofocus: true,
+      tools: {
+        header: {
+          class: Header,
+          config: {
+            placeholder: "Enter a header",
+            levels: [1, 2, 3, 4],
+            defaultLevel: 1,
           },
-          list: {
-            class: EditorjsList,
-            inlineToolbar: true,
+        },
+        changeCase: {
+          class: ChangeCase,
+          config: {
+            showLocaleOption: true,
+            locale: "tr",
           },
         },
-        data: blog.post.content || {},
-      });
-
-      return () => {
-        editor.destroy();
-        editorRef.current = null;
-      };
-    }
-  }, [blog.post]);
+        annotation: Annotation,
+        delimiter: {
+          class: Delimiter,
+          config: {
+            styleOptions: ["star", "dash", "line"],
+            defaultStyle: "star",
+            lineWidthOptions: [8, 15, 25, 35, 50, 60, 100],
+            defaultLineWidth: 25,
+            lineThicknessOptions: [1, 2, 3, 4, 5, 6],
+            defaultLineThickness: 2,
+          },
+        },
+        list: {
+          class: EditorjsList,
+          inlineToolbar: true,
+        },
+        toggle: {
+          class: ToggleBlock,
+          inlineToolbar: true,
+        },
+        code: editorjsCodeflask,
+        images: SimpleImage,
+        ColorPicker: {
+          class: ColorPicker,
+        },
+        table: {
+          class: Table,
+          inlineToolbar: true,
+          config: {
+            rows: 2,
+            cols: 3,
+            maxRows: 5,
+            maxCols: 5,
+          },
+        },
+        quote: {
+          class: Quote,
+          inlineToolbar: true,
+          config: {
+            quotePlaceholder: "Masukkan quote",
+            captionPlaceholder: "Penulis",
+          },
+        },
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
+        },
+        image: {
+          class: InlineImage,
+          inlineToolbar: true,
+          config: {
+            embed: {
+              display: true,
+            },
+            unsplash: {
+              appName: "blog_system",
+              apiUrl: "https://images.unsplash.com",
+              maxResults: 30,
+              imageParams: {
+                q: 85,
+                w: 1500,
+              },
+            },
+          },
+        },
+        embed: {
+          class: Embed,
+          config: {
+            services: {
+              youtube: true,
+              coub: true,
+            },
+          },
+        },
+      },
+      data: blog?.post?.content || {}, // Pastikan content tidak undefined
+    });
+  
+    return () => {
+      editor.destroy();
+      editorRef.current = null;
+    };
+  }, [blog?.post]); // Tambahkan optional chaining di dependency array
+  
 
   const navigate = useNavigate();
 
