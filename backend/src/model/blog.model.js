@@ -19,10 +19,7 @@ const BlogSchema = new mongoose.Schema({
         ref: "User",
         required : true
     },
-    rating: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
+    rating: Number,
     createdAt: {
         type: Date,
         default: Date.now
