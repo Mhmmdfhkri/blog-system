@@ -120,7 +120,7 @@ router.patch("/update-post/:id", verifyToken, isAdmin, async (req, res) => {
 });
 
 // delete a Blog
-router.delete("/:id", verifyToken, isAdmin, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Blog.findByIdAndDelete(postId);
