@@ -7,14 +7,14 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/auth",
+    baseUrl: `${import.meta.env.VITE_REACT_APP_BACKEND_BASE_URL}/api/auth`,
     credentials: "include",
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (newUser) => ({
         url: "/register",
-        method: "POST",  
+        method: "POST",
         body: newUser,
       }),
     }),
@@ -55,7 +55,7 @@ const authApi = createApi({
       invalidatesTags: ["User"],
     }),
   }),
-})
+});
 
 export const {
   useRegisterUserMutation,
@@ -65,6 +65,5 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
 } = authApi;
-
 
 export default authApi;
