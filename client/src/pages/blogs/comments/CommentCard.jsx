@@ -5,7 +5,6 @@ import PostAComment from './PostAComment'
 import { useSelector } from 'react-redux'
 import {format} from 'timeago.js'
 
-
 const CommentCard = ({comments}) => {
     console.log(comments)
     const user = useSelector((state) => state.auth.user);
