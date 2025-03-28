@@ -14,8 +14,14 @@ app.use(bodyParser.json({limit: "10mb"}))
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true, 
+    origin: "https://blog-system-frontend-five.vercel.app",
+    credentials: true,
+    methods: [
+      'GET', 'POST', 'PUT', 'DELETE', 'PATCH'
+    ],
+    allowedHeaders: [
+      'Content-Type', 'Authorization'
+    ] 
   })
 );
 

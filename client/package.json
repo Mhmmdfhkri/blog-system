@@ -25,6 +25,7 @@
     "@editorjs/table": "^2.4.4",
     "@reduxjs/toolkit": "^2.5.1",
     "@tailwindcss/vite": "^4.0.1",
+    "bcryptjs": "^3.0.2",
     "editorjs-annotation": "^1.1.0",
     "editorjs-audio-player": "^0.0.3",
     "editorjs-color-picker": "^1.0.7",
