@@ -20,12 +20,18 @@ export const blogApi = createApi({
       query: (id) => `/blogs/related/${id}`,
     }),
     postBlog: builder.mutation({
-      query: (newBlog) => ({
-        url: `/blogs/create-post`,
-        method: "POST",
-        body: newBlog,
-        credentials: "include",
-      }),
+      query: (newBlog) => {
+        const token = localStorage.getItem("token");  // Ambil token dari localStorage
+        return {
+          url: `/blogs/create-post`,
+          method: "POST",
+          body: newBlog,
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,  // Kirim token di header
+          },
+        };
+      },      
       invalidatesTags: ["Blogs"],
     }),
     updateBlog: builder.mutation({
