@@ -6,16 +6,31 @@ const verifyToken = require("../middleware/verifyToken.js");
 const isAdmin = require("../middleware/isAdmin.js");
 
 // create a blog post
-router.post("/create-post", async (req, res) => {
+router.post("/create-post", verifyToken, async (req, res) => {
   try {
-    console.log(req.body);
-    const newPost = new Blog(req.body);
+    const { title, content, category, coverImg, } = req.body;
+
+    // console.log("UserId: ", req.userId)
+    const newPost = new Blog({
+        ...req.body,
+        author: req.userId,
+    });
     await newPost.save();
-    res.status(200).send({ message: "Post Created Successfully!", post: newPost });
-  } catch (error) {
-    console.error("An Error occurred while creating new post", error);
-    res.status(500).send({ message: "An Error occurred while creating new post" });
-  }
+    res.status(201).send({ message: 'Post created successfully', post: newPost });
+} catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).send({ message: 'Failed to create post' });
+}
+
+  // try {
+  //   console.log(req.body);
+  //   const newPost = new Blog(req.body);
+  //   await newPost.save();
+  //   res.status(200).send({ message: "Post Created Successfully!", post: newPost });
+  // } catch (error) {
+  //   console.error("An Error occurred while creating new post", error);
+  //   res.status(500).send({ message: "An Error occurred while creating new post" });
+  // }
 });
 
 // get All Blogs
