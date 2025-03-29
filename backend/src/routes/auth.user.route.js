@@ -42,8 +42,8 @@ router.post("/login", async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       httpOnly: true, // enable this when you have https://
-      secure: true,
-      sameSite: true,
+      secure: process.env.NODE_ENV === "production", // Hanya aktif di production
+      sameSite: "none",
     });
 
     console.log("Generated Token :", token);

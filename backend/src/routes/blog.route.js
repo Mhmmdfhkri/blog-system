@@ -6,11 +6,11 @@ const verifyToken = require("../middleware/verifyToken.js");
 const isAdmin = require("../middleware/isAdmin.js");
 
 // create a blog post
-router.post("/create-post", verifyToken, async (req, res) => {
+router.post("/create-post", async (req, res) => {
   try {
     const { title, content, category, coverImg } = req.body;
 
-    // console.log("UserId: ", req.userId)
+    console.log("UserId: ", req.userId);
     const newPost = new Blog({
       ...req.body,
       author: req.userId,
