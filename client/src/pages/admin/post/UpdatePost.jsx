@@ -150,8 +150,10 @@ const UpdatePost = () => {
     });
   
     return () => {
-      editor.destroy();
-      editorRef.current = null;
+      if (editorRef.current && typeof editorRef.current.destroy === 'function') {
+        editorRef.current.destroy();
+        editorRef.current = null;
+      }
     };
   }, [blog?.post]); // Tambahkan optional chaining di dependency array
   
