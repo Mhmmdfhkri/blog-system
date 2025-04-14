@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import RelatedBlogs from './RelatedBlogs';
 import CommentCard from '../comments/CommentCard';
 //tambahan
+import AudioPlayer from 'editorjs-audio-player';
 import Quote from "@editorjs/quote";
 import "react-toastify/dist/ReactToastify.css";
 import Embed from "@editorjs/embed";
