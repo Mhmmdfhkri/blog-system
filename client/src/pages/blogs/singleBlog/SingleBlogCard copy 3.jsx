@@ -14,7 +14,8 @@ function SingleBlogCard({ blog }) {
 
     const { title, description, content, coverImg, category, rating, author, createdAt } = blog || {};
     const parsedContent = editorJSHTML.parse(content);
-    const htmlContent = parsedContent.flat().join('');
+    const htmlContent = Array.isArray(parsedContent) ? parsedContent.join('') : parsedContent;
+
     return (
         <div className="flex flex-col gap-8 px-8 md:px-16">
             {/* Detail Blog */}
