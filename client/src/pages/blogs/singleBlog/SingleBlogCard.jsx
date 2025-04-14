@@ -20,7 +20,9 @@ import Delimiter from '@coolbytes/editorjs-delimiter';
 import ChangeCase from 'editorjs-change-case';
 import Annotation from 'editorjs-annotation';
 
-
+import EditorJS from "@editorjs/editorjs";
+import EditorjsList from "@editorjs/list";
+import Header from "@editorjs/header";
 
 const editorJSHTML = EditorJSHTML();
 
