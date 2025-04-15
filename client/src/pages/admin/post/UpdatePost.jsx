@@ -83,10 +83,15 @@ const UpdatePost = () => {
             defaultLineThickness: 2,
           },
         },
-        list: {
-          class: EditorjsList,
-          inlineToolbar: true,
-        },
+        tools: {
+          list: {
+            class: NestedList,
+            inlineToolbar: true,
+            config: {
+              defaultStyle: 'ordered',
+            }
+          }
+        },        
         toggle: {
           class: ToggleBlock,
           inlineToolbar: true,

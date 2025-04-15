@@ -29,19 +29,24 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-        const tag = block.data.style === "ordered" ? "ol" : "ul";
-        const listTypeClass =
-          block.data.style === "ordered" ? "list-decimal" : "list-disc";
+        const { style, items, meta } = block.data;
+        const isOrdered = style === "ordered";
       
-        const items = block.data.items
-          .map((item) => {
-            const text = typeof item === "string" ? item : item.content;
-            return `<li class="ml-6">${text}</li>`;
-          })
-          .join("");
-      
-        return `<${tag} class="my-4 ${listTypeClass} pl-6">${items}</${tag}>`;
-      },      
+        return `
+          <${isOrdered ? "ol" : "ul"} class="list-${isOrdered ? "decimal" : "disc"} pl-6">
+            ${items
+              .map((item) => {
+                if (typeof item === "string") {
+                  return `<li>${item}</li>`;
+                } else if (typeof item === "object" && item.content) {
+                  return `<li>${item.content}</li>`;
+                }
+                return "";
+              })
+              .join("")}
+          </${isOrdered ? "ol" : "ul"}>
+        `;
+      },            
     quote: (block) => {
       const text = block?.data?.text || "";
       const caption = block?.data?.caption || "";
