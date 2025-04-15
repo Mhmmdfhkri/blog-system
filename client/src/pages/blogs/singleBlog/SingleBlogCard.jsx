@@ -6,6 +6,23 @@ import { Link } from "react-router-dom";
 import RelatedBlogs from "./RelatedBlogs";
 import CommentCard from "../comments/CommentCard";
 
+// Fungsi untuk render nested list
+function renderNestedList(items, style = "unordered") {
+    const tag = style === "ordered" ? "ol" : "ul";
+    const listClass = style === "ordered" ? "list-decimal" : "list-disc";
+  
+    return `<${tag} class="${listClass} pl-6">
+      ${items
+        .map((item) => {
+          const content = item.content || item || '';
+          const children = item.items ? renderNestedList(item.items, style) : '';
+          return `<li>${content}${children}</li>`;
+        })
+        .join('')}
+    </${tag}>`;
+  }
+  
+
 // Custom Parser
 const customParsers = {
     paragraph: (block) => {
@@ -29,24 +46,10 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-        const { style, items, meta } = block.data;
-        const isOrdered = style === "ordered";
-      
-        return `
-          <${isOrdered ? "ol" : "ul"} class="list-${isOrdered ? "decimal" : "disc"} pl-6">
-            ${items
-              .map((item) => {
-                if (typeof item === "string") {
-                  return `<li>${item}</li>`;
-                } else if (typeof item === "object" && item.content) {
-                  return `<li>${item.content}</li>`;
-                }
-                return "";
-              })
-              .join("")}
-          </${isOrdered ? "ol" : "ul"}>
-        `;
-      },            
+        const { style, items } = block.data;
+        return renderNestedList(items, style);
+      },
+                 
     quote: (block) => {
       const text = block?.data?.text || "";
       const caption = block?.data?.caption || "";
