@@ -9,9 +9,13 @@ import CommentCard from "../comments/CommentCard";
 // Custom Parser
 const customParsers = {
     paragraph: (block) => {
-      if (!block?.data?.text) return "";
-      return `<p class="text-gray-700 text-base leading-relaxed">${block.data.text}</p>`;
-    },
+        const text = block?.data?.text;
+        if (typeof text !== "string") {
+          console.warn("Paragraph skipped: invalid text", block);
+          return "";
+        }
+        return `<p class="text-gray-700 text-base leading-relaxed">${text}</p>`;
+      },
     header: (block) => {
       const level = block.data.level || 2;
       const sizeClass = {
@@ -25,21 +29,21 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-      try {
-        const tag = block.data.style === "ordered" ? "ol" : "ul";
-        const listStyle = block.data.style === "ordered" ? "list-decimal" : "list-disc";
-        const items = (block.data.items || [])
-          .map(
-            (item) =>
-              `<li class="ml-6 ${listStyle} text-gray-700 text-base leading-relaxed">${item}</li>`
-          )
-          .join("");
-        return `<${tag} class="my-4">${items}</${tag}>`;
-      } catch (err) {
-        console.error("List parsing error:", err);
-        return "";
-      }
-    },
+        try {
+          const style = block?.data?.style === "ordered" ? "ol" : "ul";
+          const listStyle = style === "ol" ? "list-decimal" : "list-disc";
+          const items = (block?.data?.items || [])
+            .map((item) => {
+              const text = typeof item === "string" ? item : item?.content || "";
+              return `<li class="ml-6 ${listStyle} text-gray-700 text-base leading-relaxed">${text}</li>`;
+            })
+            .join("");
+          return `<${style} class="my-4">${items}</${style}>`;
+        } catch (err) {
+          console.error("List parsing error:", err, block);
+          return "";
+        }
+      },
     quote: (block) => {
       const text = block?.data?.text || "";
       const caption = block?.data?.caption || "";
