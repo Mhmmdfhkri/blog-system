@@ -7,50 +7,69 @@ import RelatedBlogs from "./RelatedBlogs";
 import CommentCard from "../comments/CommentCard";
 
 // Custom Parser
-// Custom Parser
 const customParsers = {
     paragraph: (block) => {
-      // Cek apakah ada inline link di dalam paragraph
+      if (!block?.data?.text) return "";
       return `<p class="text-gray-700 text-base leading-relaxed">${block.data.text}</p>`;
     },
     header: (block) => {
-      const level = block.data.level;
-      return `<h${level} class="font-semibold text-gray-800 text-${level === 1 ? "3xl" : level === 2 ? "2xl" : "xl"}">${block.data.text}</h${level}>`;
+      const level = block.data.level || 2;
+      const sizeClass = {
+        1: "text-3xl",
+        2: "text-2xl",
+        3: "text-xl",
+        4: "text-lg",
+        5: "text-base",
+        6: "text-sm",
+      }[level];
+      return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-        try {
-          const tag = block.data.style === "ordered" ? "ol" : "ul";
-          const listStyle = block.data.style === "ordered" ? "list-decimal" : "list-disc";
-          const items = (block.data.items || [])
-            .map((item) => `<li class="ml-6 ${listStyle} text-gray-700 text-base">${item}</li>`)
-            .join("");
-          return `<${tag} class="my-4">${items}</${tag}>`;
-        } catch (err) {
-          console.error("List parsing error:", err);
-          return ""; // fallback kosong kalau error
-        }
-      },
-      
+      try {
+        const tag = block.data.style === "ordered" ? "ol" : "ul";
+        const listStyle = block.data.style === "ordered" ? "list-decimal" : "list-disc";
+        const items = (block.data.items || [])
+          .map(
+            (item) =>
+              `<li class="ml-6 ${listStyle} text-gray-700 text-base leading-relaxed">${item}</li>`
+          )
+          .join("");
+        return `<${tag} class="my-4">${items}</${tag}>`;
+      } catch (err) {
+        console.error("List parsing error:", err);
+        return "";
+      }
+    },
     quote: (block) => {
+      const text = block?.data?.text || "";
+      const caption = block?.data?.caption || "";
       return `
         <blockquote class="border-l-4 border-blue-600 pl-4 italic text-gray-600 my-4">
-          "${block.data.text}"
-          ${block.data.caption ? `<footer class="mt-2 text-sm text-right">— ${block.data.caption}</footer>` : ""}
+          "${text}"
+          ${
+            caption
+              ? `<footer class="mt-2 text-sm text-right">— ${caption}</footer>`
+              : ""
+          }
         </blockquote>
       `;
     },
     delimiter: () => {
-      return `<div class="my-6 text-center text-gray-400 text-2xl">***</div>`;
+      return `<div class="text-center my-4 text-gray-300">***</div>`;
     },
-    // Optional: if you're using the "link" plugin
     linkTool: (block) => {
+      const { link, meta } = block.data || {};
       return `
-        <a href="${block.data.link}" class="text-blue-600 underline hover:text-blue-800" target="_blank" rel="noopener noreferrer">
-          ${block.data.meta?.title || block.data.link}
-        </a>
+        <div class="my-4">
+          <a href="${link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline">
+            ${meta?.title || link}
+          </a>
+          <p class="text-sm text-gray-500">${meta?.description || ""}</p>
+        </div>
       `;
     },
   };
+  
   
 
 const editorJSHTML = EditorJSHTML(customParsers);
