@@ -29,21 +29,19 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-        try {
-          const style = block?.data?.style === "ordered" ? "ol" : "ul";
-          const listStyle = style === "ol" ? "list-decimal" : "list-disc";
-          const items = (block?.data?.items || [])
-            .map((item) => {
-              const text = typeof item === "string" ? item : item?.content || "";
-              return `<li class="ml-6 ${listStyle} text-gray-700 text-base leading-relaxed">${text}</li>`;
-            })
-            .join("");
-          return `<${style} class="my-4">${items}</${style}>`;
-        } catch (err) {
-          console.error("List parsing error:", err, block);
-          return "";
-        }
-      },
+        const tag = block.data.style === "ordered" ? "ol" : "ul";
+        const listTypeClass =
+          block.data.style === "ordered" ? "list-decimal" : "list-disc";
+      
+        const items = block.data.items
+          .map((item) => {
+            const text = typeof item === "string" ? item : item.content;
+            return `<li class="ml-6">${text}</li>`;
+          })
+          .join("");
+      
+        return `<${tag} class="my-4 ${listTypeClass} pl-6">${items}</${tag}>`;
+      },      
     quote: (block) => {
       const text = block?.data?.text || "";
       const caption = block?.data?.caption || "";
@@ -99,19 +97,23 @@ const customParsers = {
       checklist: (block) => {
         const items = block.data.items || [];
         return `
-          <ul class="my-4 space-y-2">
+          <div class="checklist my-4 flex flex-col gap-2">
             ${items
-              .map(
-                (item) => `
-              <li class="flex items-start gap-2">
-                <span class="inline-block w-4 h-4 border border-gray-600 rounded-sm mt-1 ${item.checked ? 'bg-black' : ''}"></span>
-                <span class="${item.checked ? 'line-through text-gray-500' : 'text-gray-800'}">${item.text}</span>
-              </li>`
-              )
+              .map((item) => {
+                const checked = item.checked ? "checked" : "";
+                const line = item.checked ? "line-through text-gray-400" : "";
+                return `
+                  <label class="inline-flex items-center gap-2">
+                    <input type="checkbox" disabled ${checked} class="w-4 h-4 text-black" />
+                    <span class="${line}">${item.text}</span>
+                  </label>
+                `;
+              })
               .join("")}
-          </ul>
+          </div>
         `;
       },
+      
       
     linkTool: (block) => {
       const { link, meta } = block.data || {};
