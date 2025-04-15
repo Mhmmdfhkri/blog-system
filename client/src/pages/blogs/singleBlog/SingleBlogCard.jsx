@@ -60,38 +60,59 @@ const customParsers = {
     },
     delimiter: (block) => {
         const style = block.data?.style || '*';
-        const widthMap = {
-          '*': '100%',
-          '--': '100%',
-          '-8%': '8%',
-          '-15%': '15%',
-          '-25%': '25%',
-          '-35%': '35%',
-          '-50%': '50%',
-          '-60%': '60%',
-          '-100%': '100%',
-        };
       
-        const lineWidth = widthMap[style] || '100%';
+        // Ubah jadi normal format, ex: "-15%" jadi "15%"
+        const match = style.match(/-?(\d+)%?/);
+        const width = match ? `${match[1]}%` : '100%';
+      
         return `
-          <div class="flex justify-center my-4">
-            <hr style="width: ${lineWidth}; border-color: black;" />
+          <div class="flex justify-center my-6">
+            <hr style="width: ${width}; border: 1px solid black;" />
           </div>
         `;
       },
-      checklist: (block) => {
-        const items = block.data.items
+      table: (block) => {
+        const content = block.data.content;
+        if (!content || !Array.isArray(content)) return "";
+      
+        const rows = content
           .map(
-            (item) => `
-            <div class="flex items-start gap-2 mb-2">
-              <input type="checkbox" disabled ${item.checked ? "checked" : ""} class="accent-black mt-1" />
-              <span class="${item.checked ? "line-through text-gray-500" : "text-gray-800"}">${item.text}</span>
-            </div>
+            (row) => `
+            <tr>
+              ${row.map((cell) => `<td class="border px-4 py-2">${cell}</td>`).join("")}
+            </tr>
           `
           )
           .join("");
-        return `<div class="my-4">${items}</div>`;
+      
+        return `
+          <div class="overflow-x-auto my-6">
+            <table class="table-auto border-collapse border border-gray-400 w-full">
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          </div>
+        `;
       },
+            
+      checklist: (block) => {
+        const items = block.data.items || [];
+        return `
+          <ul class="my-4 space-y-2">
+            ${items
+              .map(
+                (item) => `
+              <li class="flex items-start gap-2">
+                <span class="inline-block w-4 h-4 border border-gray-600 rounded-sm mt-1 ${item.checked ? 'bg-black' : ''}"></span>
+                <span class="${item.checked ? 'line-through text-gray-500' : 'text-gray-800'}">${item.text}</span>
+              </li>`
+              )
+              .join("")}
+          </ul>
+        `;
+      },
+      
     linkTool: (block) => {
       const { link, meta } = block.data || {};
       return `
