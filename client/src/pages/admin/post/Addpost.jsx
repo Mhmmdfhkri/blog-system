@@ -73,11 +73,8 @@ const Addpost = () => {
           }
         },
         list: {
-          class: NestedList,
+          class: EditorjsList,
           inlineToolbar: true,
-          config: {
-            defaultStyle: 'ordered',
-          }
         },
         toggle: {
           class: ToggleBlock,
