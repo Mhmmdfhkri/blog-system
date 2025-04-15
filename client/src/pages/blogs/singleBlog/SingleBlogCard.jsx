@@ -58,9 +58,40 @@ const customParsers = {
         </blockquote>
       `;
     },
-    delimiter: () => {
-      return `<div class="text-center my-4 text-gray-300">***</div>`;
-    },
+    delimiter: (block) => {
+        const style = block.data?.style || '*';
+        const widthMap = {
+          '*': '100%',
+          '--': '100%',
+          '-8%': '8%',
+          '-15%': '15%',
+          '-25%': '25%',
+          '-35%': '35%',
+          '-50%': '50%',
+          '-60%': '60%',
+          '-100%': '100%',
+        };
+      
+        const lineWidth = widthMap[style] || '100%';
+        return `
+          <div class="flex justify-center my-4">
+            <hr style="width: ${lineWidth}; border-color: black;" />
+          </div>
+        `;
+      },
+      checklist: (block) => {
+        const items = block.data.items
+          .map(
+            (item) => `
+            <div class="flex items-start gap-2 mb-2">
+              <input type="checkbox" disabled ${item.checked ? "checked" : ""} class="accent-black mt-1" />
+              <span class="${item.checked ? "line-through text-gray-500" : "text-gray-800"}">${item.text}</span>
+            </div>
+          `
+          )
+          .join("");
+        return `<div class="my-4">${items}</div>`;
+      },
     linkTool: (block) => {
       const { link, meta } = block.data || {};
       return `
