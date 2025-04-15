@@ -7,36 +7,45 @@ import RelatedBlogs from "./RelatedBlogs";
 import CommentCard from "../comments/CommentCard";
 
 // Custom Parser
+// Custom Parser
 const customParsers = {
-  paragraph: (block) => {
-    return `<p class="text-gray-700 text-base leading-relaxed">${block.data.text}</p>`;
-  },
-  header: (block) => {
-    const level = block.data.level;
-    return `<h${level} class="font-semibold text-gray-800 text-${
-      level === 1 ? "3xl" : level === 2 ? "2xl" : "xl"
-    }">${block.data.text}</h${level}>`;
-  },
-  list: (block) => {
-    const tag = block.data.style === "ordered" ? "ol" : "ul";
-    const items = block.data.items
-      .map((item) => `<li class="ml-6 list-disc">${item}</li>`)
-      .join("");
-    return `<${tag} class="my-4">${items}</${tag}>`;
-  },
-  quote: (block) => {
-    return `
-      <blockquote class="border-l-4 border-blue-600 pl-4 italic text-gray-600 my-4">
-        "${block.data.text}"
-        ${
-          block.data.caption
-            ? `<footer class="mt-2 text-sm text-right">— ${block.data.caption}</footer>`
-            : ""
-        }
-      </blockquote>
-    `;
-  },
-};
+    paragraph: (block) => {
+      // Cek apakah ada inline link di dalam paragraph
+      return `<p class="text-gray-700 text-base leading-relaxed">${block.data.text}</p>`;
+    },
+    header: (block) => {
+      const level = block.data.level;
+      return `<h${level} class="font-semibold text-gray-800 text-${level === 1 ? "3xl" : level === 2 ? "2xl" : "xl"}">${block.data.text}</h${level}>`;
+    },
+    list: (block) => {
+      const tag = block.data.style === "ordered" ? "ol" : "ul";
+      const listStyle = block.data.style === "ordered" ? "list-decimal" : "list-disc";
+      const items = block.data.items
+        .map((item) => `<li class="ml-6 ${listStyle} text-gray-700 text-base">${item}</li>`)
+        .join("");
+      return `<${tag} class="my-4">${items}</${tag}>`;
+    },
+    quote: (block) => {
+      return `
+        <blockquote class="border-l-4 border-blue-600 pl-4 italic text-gray-600 my-4">
+          "${block.data.text}"
+          ${block.data.caption ? `<footer class="mt-2 text-sm text-right">— ${block.data.caption}</footer>` : ""}
+        </blockquote>
+      `;
+    },
+    delimiter: () => {
+      return `<div class="my-6 text-center text-gray-400 text-2xl">***</div>`;
+    },
+    // Optional: if you're using the "link" plugin
+    linkTool: (block) => {
+      return `
+        <a href="${block.data.link}" class="text-blue-600 underline hover:text-blue-800" target="_blank" rel="noopener noreferrer">
+          ${block.data.meta?.title || block.data.link}
+        </a>
+      `;
+    },
+  };
+  
 
 const editorJSHTML = EditorJSHTML(customParsers);
 
