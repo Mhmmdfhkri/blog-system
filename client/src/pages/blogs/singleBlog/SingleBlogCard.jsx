@@ -18,13 +18,19 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 text-${level === 1 ? "3xl" : level === 2 ? "2xl" : "xl"}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-      const tag = block.data.style === "ordered" ? "ol" : "ul";
-      const listStyle = block.data.style === "ordered" ? "list-decimal" : "list-disc";
-      const items = block.data.items
-        .map((item) => `<li class="ml-6 ${listStyle} text-gray-700 text-base">${item}</li>`)
-        .join("");
-      return `<${tag} class="my-4">${items}</${tag}>`;
-    },
+        try {
+          const tag = block.data.style === "ordered" ? "ol" : "ul";
+          const listStyle = block.data.style === "ordered" ? "list-decimal" : "list-disc";
+          const items = (block.data.items || [])
+            .map((item) => `<li class="ml-6 ${listStyle} text-gray-700 text-base">${item}</li>`)
+            .join("");
+          return `<${tag} class="my-4">${items}</${tag}>`;
+        } catch (err) {
+          console.error("List parsing error:", err);
+          return ""; // fallback kosong kalau error
+        }
+      },
+      
     quote: (block) => {
       return `
         <blockquote class="border-l-4 border-blue-600 pl-4 italic text-gray-600 my-4">
