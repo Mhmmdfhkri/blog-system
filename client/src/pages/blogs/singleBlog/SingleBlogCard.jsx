@@ -22,7 +22,7 @@ const customParsers = {
       <div class="my-4">
         <img src="${block.data.file.url}" alt="${
       block.data.caption || "Blog Image"
-    }" class="rounded-lg max-w-full h-auto object-contain" />
+    }" class="rounded-lg w-full h-auto" />
         ${
           block.data.caption
             ? `<p class="text-sm text-center text-gray-500">${block.data.caption}</p>`
