@@ -64,12 +64,7 @@ const Addpost = () => {
         delimiter: {
           class: Delimiter,
           config: {
-            styleOptions: ['star', 'dash', 'line'],
             defaultStyle: 'star',
-            lineWidthOptions: [8, 15, 25, 35, 50, 60, 100],
-            defaultLineWidth: 25,
-            lineThicknessOptions: [1, 2, 3, 4, 5, 6],
-            defaultLineThickness: 2,
           }
         },
         list: {
