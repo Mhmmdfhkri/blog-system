@@ -11,14 +11,25 @@ import CommentCard from "../comments/CommentCard";
 
 // Custom Parser
 const customParsers = {
-    paragraph: (block) => {
-        const text = block?.data?.text;
-        if (typeof text !== "string") {
-          console.warn("Paragraph skipped: invalid text", block);
-          return "";
-        }
-        return `<p class="text-gray-700 text-base leading-relaxed">${text}</p>`;
-      },
+  paragraph: (block) => {
+    const text = block?.data?.text;
+    const alignment = block?.data?.alignment || "left"; // Default ke left jika alignment tidak ada
+    
+    if (typeof text !== "string") {
+      console.warn("Paragraph skipped: invalid text", block);
+      return "";
+    }
+  
+    // Menentukan alignment
+    const alignmentClass = {
+      left: "text-left",
+      center: "text-center",
+      right: "text-right",
+      justify: "text-justify",
+    }[alignment] || "text-left"; // Default ke left jika alignment tidak valid
+    
+    return `<p class="text-gray-700 text-base leading-relaxed ${alignmentClass}">${text}</p>`;
+  },  
     header: (block) => {
       const level = block.data.level || 2;
       const sizeClass = {
