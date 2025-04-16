@@ -127,7 +127,7 @@ const customParsers = {
             .join("")}
         </${tag}>
       `;
-    };
+    },
       
                  
     quote: (block) => {
