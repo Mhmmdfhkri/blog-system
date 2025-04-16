@@ -92,6 +92,7 @@ const customParsers = {
     
       if (!items || !Array.isArray(items)) return "";
     
+      // ✅ Checklist
       if (style === "checklist") {
         return `
           <div class="my-4">
@@ -111,10 +112,12 @@ const customParsers = {
         `;
       }
     
-      // Fallback untuk ordered/unordered list biasa
+      // ✅ Ordered/Unordered List
       const tag = style === "ordered" ? "ol" : "ul";
+      const listClass = style === "ordered" ? "list-decimal" : "list-disc";
+    
       return `
-        <${tag} class="list-${style === "ordered" ? "decimal" : "disc"} ml-6 text-gray-700 space-y-1 my-4">
+        <${tag} class="${listClass} list-inside ml-6 text-gray-700 my-4">
           ${items
             .map((item) => {
               if (typeof item === "string") return `<li>${item}</li>`;
@@ -124,7 +127,8 @@ const customParsers = {
             .join("")}
         </${tag}>
       `;
-    },    
+    };
+      
                  
     quote: (block) => {
       const text = block?.data?.text || "";
