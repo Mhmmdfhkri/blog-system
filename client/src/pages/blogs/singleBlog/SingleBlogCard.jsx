@@ -64,20 +64,21 @@ const customParsers = {
     `;
   },
   toggle: (block) => {
-    const { text, status } = block.data || {};
-
-    if (!text) return "";
-
-    const isOpen = status === "open"; // default terbuka kalau status === "open"
-
+    const toggleData = block.data?.toggle;
+  
+    if (!toggleData?.title) return "";
+  
+    const isOpen = toggleData.open === true;
+  
     return `
       <details class="border rounded-lg p-4 bg-gray-50" ${isOpen ? "open" : ""}>
         <summary class="cursor-pointer font-semibold text-gray-800">
-          ${text}
+          ${toggleData.title}
         </summary>
       </details>
     `;
   },
+  
 
   header: (block) => {
     const level = block.data.level || 2;
