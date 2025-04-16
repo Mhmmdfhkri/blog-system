@@ -20,6 +20,7 @@ import Delimiter from '@coolbytes/editorjs-delimiter';
 import ChangeCase from 'editorjs-change-case';
 import Annotation from 'editorjs-annotation';
 
+import FootnotesTune from '@editorjs/footnotes';
 
 // terbaru
 import AudioPlayer from 'editorjs-audio-player';
@@ -51,6 +52,13 @@ const Addpost = () => {
             placeholder: "Enter a header",
             levels: [1, 2, 3, 4],
             defaultLevel: 1,
+          },
+        },
+        footnotes: {
+          class: FootnotesTune,
+          config: {
+            placeholder: 'Your placeholder for footnotes popover',
+            shortcut: 'CMD+SHIFT+F',
           },
         },
         changeCase: {
@@ -102,6 +110,7 @@ const Addpost = () => {
         paragraph: {
           class: Paragraph,
           inlineToolbar: true,
+          tunes: ['footnotes'],
         },
         image: {
           class: InlineImage,
