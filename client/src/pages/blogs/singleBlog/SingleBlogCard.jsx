@@ -29,7 +29,23 @@ const customParsers = {
     }[alignment] || "text-left"; // Default ke left jika alignment tidak valid
     
     return `<p class="text-gray-700 text-base leading-relaxed ${alignmentClass}">${text}</p>`;
-  },  
+  },
+  toggle: (block) => {
+    const { title, message } = block.data || {};
+  
+    if (!title || !message) return "";
+  
+    return `
+      <details class="border rounded-lg p-4 bg-gray-50">
+        <summary class="cursor-pointer font-semibold text-gray-800">
+          ${title}
+        </summary>
+        <div class="mt-2 text-gray-700 leading-relaxed">
+          ${message}
+        </div>
+      </details>
+    `;
+  },    
     header: (block) => {
       const level = block.data.level || 2;
       const sizeClass = {
