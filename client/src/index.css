@@ -46,3 +46,23 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+
+.custom-audio-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
+  padding: 1rem;
+  max-width: 500px;
+  background: #f9fafb;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.custom-audio-player audio {
+  width: 100%;
+  outline: none;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+

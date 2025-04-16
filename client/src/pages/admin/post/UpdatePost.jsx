@@ -26,6 +26,8 @@ import Annotation from 'editorjs-annotation';
 
 import FootnotesTune from '@editorjs/footnotes';
 
+import AudioPlayer from 'editorjs-audio-player';
+
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -67,6 +69,7 @@ const UpdatePost = () => {
             defaultLevel: 1,
           },
         },
+        audioPlayer: AudioPlayer,
         footnotes: {
           class: FootnotesTune,
         },

@@ -110,7 +110,6 @@ const Addpost = () => {
         paragraph: {
           class: Paragraph,
           inlineToolbar: true,
-          tunes: ['footnotes'],
         },
         image: {
           class: InlineImage,

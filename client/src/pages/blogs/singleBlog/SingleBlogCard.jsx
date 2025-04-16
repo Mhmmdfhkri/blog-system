@@ -31,8 +31,17 @@ const customParsers = {
   },
   audioPlayer: (block) => {
     const src = block.data?.src;
-    return `<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`;
-  },
+    if (!src) return '';
+  
+    return `
+      <div class="custom-audio-player">
+        <audio controls>
+          <source src="${src}" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    `;
+  },  
   image: (block) => {
     const file = block?.data?.url; // Gunakan 'url' di sini
     const caption = block?.data?.caption || "";
