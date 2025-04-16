@@ -20,8 +20,6 @@ import Delimiter from '@coolbytes/editorjs-delimiter';
 import ChangeCase from 'editorjs-change-case';
 import Annotation from 'editorjs-annotation';
 
-import NestedList from 'editorjs-nested-list'
-
 
 // terbaru
 import AudioPlayer from 'editorjs-audio-player';
@@ -75,11 +73,8 @@ const Addpost = () => {
           }
         },
         list: {
-          class: NestedList,
+          class: EditorjsList,
           inlineToolbar: true,
-          config: {
-            defaultStyle: 'ordered'
-          }
         },
         toggle: {
           class: ToggleBlock,

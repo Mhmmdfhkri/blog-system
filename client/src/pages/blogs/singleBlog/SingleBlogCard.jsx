@@ -7,20 +7,6 @@ import RelatedBlogs from "./RelatedBlogs";
 import CommentCard from "../comments/CommentCard";
 
 // Fungsi untuk render nested list
-function renderNestedList(items, style = "unordered") {
-    const tag = style === "ordered" ? "ol" : "ul";
-    const listClass = style === "ordered" ? "list-decimal" : "list-disc";
-  
-    return `<${tag} class="${listClass} pl-6">
-      ${items
-        .map((item) => {
-          const content = item.content || item || '';
-          const children = item.items ? renderNestedList(item.items, style) : '';
-          return `<li>${content}${children}</li>`;
-        })
-        .join('')}
-    </${tag}>`;
-  }
   
 
 // Custom Parser
@@ -46,9 +32,21 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-        const { style, items } = block.data;
-        return renderNestedList(items, style);
-      },
+      try {
+        const style = block?.data?.style === "ordered" ? "ol" : "ul";
+        const listStyle = style === "ol" ? "list-decimal" : "list-disc";
+        const items = (block?.data?.items || [])
+          .map((item) => {
+            const text = typeof item === "string" ? item : item?.content || "";
+            return `<li class="ml-6 ${listStyle} text-gray-700 text-base leading-relaxed">${text}</li>`;
+          })
+          .join("");
+        return `<${style} class="my-4">${items}</${style}>`;
+      } catch (err) {
+        console.error("List parsing error:", err, block);
+        return "";
+      }
+    },
                  
     quote: (block) => {
       const text = block?.data?.text || "";
@@ -64,19 +62,9 @@ const customParsers = {
         </blockquote>
       `;
     },
-    delimiter: (block) => {
-        const style = block.data?.style || '*';
-      
-        // Ubah jadi normal format, ex: "-15%" jadi "15%"
-        const match = style.match(/-?(\d+)%?/);
-        const width = match ? `${match[1]}%` : '100%';
-      
-        return `
-          <div class="flex justify-center my-6">
-            <hr style="width: ${width}; border: 1px solid black;" />
-          </div>
-        `;
-      },
+    delimiter: () => {
+      return `<div class="text-center text-4xl my-4 text-black">***</div>`;
+    },
       table: (block) => {
         const content = block.data.content;
         if (!content || !Array.isArray(content)) return "";
@@ -210,3 +198,5 @@ function SingleBlogCard({ blog }) {
 }
 
 export default SingleBlogCard;
+
+
