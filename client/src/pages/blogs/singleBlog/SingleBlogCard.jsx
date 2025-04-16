@@ -30,6 +30,35 @@ const customParsers = {
     
     return `<p class="text-gray-700 text-base leading-relaxed ${alignmentClass}">${text}</p>`;
   },
+  image: (block) => {
+    const file = block?.data?.file?.url;
+    const caption = block?.data?.caption || "";
+    const withBorder = block?.data?.withBorder;
+    const stretched = block?.data?.stretched;
+    const withBackground = block?.data?.withBackground;
+  
+    if (!file) {
+      console.warn("Image skipped: no file url", block);
+      return "";
+    }
+  
+    const classes = [
+      "my-4",
+      "rounded-xl",
+      "mx-auto",
+      "max-w-full",
+      withBorder ? "border border-gray-300" : "",
+      withBackground ? "bg-gray-100 p-2" : "",
+      stretched ? "w-full" : "w-auto",
+    ].join(" ");
+  
+    return `
+      <div class="text-center ${classes}">
+        <img src="${file}" alt="${caption}" class="mx-auto mb-2 max-h-[600px] object-contain" />
+        ${caption ? `<p class="text-sm text-gray-500 italic">${caption}</p>` : ""}
+      </div>
+    `;
+  },  
   toggle: (block) => {
     const { text, status } = block.data || {};
   
