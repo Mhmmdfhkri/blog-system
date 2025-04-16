@@ -31,7 +31,7 @@ const customParsers = {
     return `<p class="text-gray-700 text-base leading-relaxed ${alignmentClass}">${text}</p>`;
   },
   image: (block) => {
-    const file = block?.data?.file?.url;
+    const file = block?.data?.url;  // Gunakan 'url' di sini
     const caption = block?.data?.caption || "";
     const withBorder = block?.data?.withBorder;
     const stretched = block?.data?.stretched;
@@ -58,7 +58,7 @@ const customParsers = {
         ${caption ? `<p class="text-sm text-gray-500 italic">${caption}</p>` : ""}
       </div>
     `;
-  },  
+  },    
   toggle: (block) => {
     const { text, status } = block.data || {};
   
