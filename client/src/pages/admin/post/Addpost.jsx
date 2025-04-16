@@ -21,7 +21,7 @@ import ChangeCase from 'editorjs-change-case';
 import Annotation from 'editorjs-annotation';
 
 import FootnotesTune from '@editorjs/footnotes';
-
+import Checklist from '@editorjs/checklist'
 // terbaru
 import AudioPlayer from 'editorjs-audio-player';
 
@@ -61,6 +61,10 @@ const Addpost = () => {
             shortcut: 'CMD+SHIFT+F',
           },
         },
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
         changeCase: {
           class: ChangeCase,
           config: {
@@ -78,6 +82,9 @@ const Addpost = () => {
         list: {
           class: EditorjsList,
           inlineToolbar: true,
+          config: {
+            defaultStyle: 'unordered'
+          },
         },
         toggle: {
           class: ToggleBlock,
