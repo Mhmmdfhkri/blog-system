@@ -135,25 +135,21 @@ const customParsers = {
       if (!code) return "";
     
       return `
-        <div class="my-6">
-          <pre class="relative rounded-lg overflow-auto bg-[#1e1e1e] text-white text-sm leading-relaxed p-4 font-mono">
-            ${showlinenumbers ? `
-              <code class="block whitespace-pre hljs" data-language="${language}" style="counter-reset: line">
-                ${code
-                  .split("\n")
-                  .map(
-                    (line) => `<div style="counter-increment: line">
-                      <span style="display:inline-block;width:2em;text-align:right;opacity:0.5;user-select:none">
-                        <span style="margin-right:0.5em"> ${line.trim() ? line.split('\n').length : ""}</span>
-                      </span>
-                      ${line.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
-                    </div>`
-                  )
-                  .join("")}
-              </code>` :
-            `<code class="block whitespace-pre hljs" data-language="${language}">
-              ${code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
-            </code>`}
+        <div class="my-6 max-w-full overflow-x-auto">
+          <pre class="bg-[#1e1e1e] text-white text-sm p-4 rounded-md font-mono leading-snug w-fit min-w-[300px]">
+            <code class="hljs" data-language="${language}">
+              ${
+                showlinenumbers
+                  ? code
+                      .split("\n")
+                      .map(
+                        (line, idx) =>
+                          `<div class="flex"><span class="pr-4 text-gray-400 select-none">${idx + 1}</span><span>${line.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span></div>`
+                      )
+                      .join("")
+                  : code.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+              }
+            </code>
           </pre>
         </div>
       `;
