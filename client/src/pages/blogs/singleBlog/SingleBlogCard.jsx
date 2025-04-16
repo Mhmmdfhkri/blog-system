@@ -31,21 +31,21 @@ const customParsers = {
     return `<p class="text-gray-700 text-base leading-relaxed ${alignmentClass}">${text}</p>`;
   },
   toggle: (block) => {
-    const { title, message } = block.data || {};
+    const { text, status } = block.data || {};
   
-    if (!title || !message) return "";
+    if (!text) return "";
+  
+    const isOpen = status === "open"; // default terbuka kalau status === "open"
   
     return `
-      <details class="border rounded-lg p-4 bg-gray-50">
+      <details class="border rounded-lg p-4 bg-gray-50" ${isOpen ? "open" : ""}>
         <summary class="cursor-pointer font-semibold text-gray-800">
-          ${title}
+          ${text}
         </summary>
-        <div class="mt-2 text-gray-700 leading-relaxed">
-          ${message}
-        </div>
       </details>
     `;
-  },    
+  },
+     
     header: (block) => {
       const level = block.data.level || 2;
       const sizeClass = {
