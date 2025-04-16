@@ -29,6 +29,10 @@ const customParsers = {
 
     return `<p class="text-gray-700 text-base leading-relaxed ${alignmentClass}">${text}</p>`;
   },
+  audioPlayer: (block) => {
+    const src = block.data?.src;
+    return `<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`;
+  },
   image: (block) => {
     const file = block?.data?.url; // Gunakan 'url' di sini
     const caption = block?.data?.caption || "";
