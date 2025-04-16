@@ -121,30 +121,44 @@ const customParsers = {
     delimiter: () => {
       return `<div class="text-center text-4xl my-4 text-black">***</div>`;
     },
-      table: (block) => {
-        const content = block.data.content;
-        if (!content || !Array.isArray(content)) return "";
-      
-        const rows = content
-          .map(
-            (row) => `
-            <tr>
-              ${row.map((cell) => `<td class="border px-4 py-2">${cell}</td>`).join("")}
+    table: (block) => {
+      const content = block.data.content;
+      if (!content || !Array.isArray(content)) return "";
+    
+      const header = content[0];
+      const bodyRows = content.slice(1);
+    
+      const thead = `
+        <thead class="bg-gray-100 text-gray-800 font-semibold">
+          <tr>
+            ${header.map((cell) => `<th class="border border-gray-300 px-4 py-2 text-left">${cell}</th>`).join("")}
+          </tr>
+        </thead>
+      `;
+    
+      const tbody = `
+        <tbody>
+          ${bodyRows
+            .map(
+              (row) => `
+            <tr class="hover:bg-gray-50 transition">
+              ${row.map((cell) => `<td class="border border-gray-200 px-4 py-2">${cell}</td>`).join("")}
             </tr>
           `
-          )
-          .join("");
-      
-        return `
-          <div class="overflow-x-auto my-6">
-            <table class="table-auto border-collapse border border-gray-400 w-full">
-              <tbody>
-                ${rows}
-              </tbody>
-            </table>
-          </div>
-        `;
-      },
+            )
+            .join("")}
+        </tbody>
+      `;
+    
+      return `
+        <div class="overflow-x-auto my-6 rounded-xl shadow-md">
+          <table class="min-w-full table-auto border-collapse bg-white">
+            ${thead}
+            ${tbody}
+          </table>
+        </div>
+      `;
+    },    
             
       checklist: (block) => {
         const items = block.data.items || [];
