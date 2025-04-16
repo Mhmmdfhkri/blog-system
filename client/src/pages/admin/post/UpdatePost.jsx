@@ -28,7 +28,9 @@ import FootnotesTune from '@editorjs/footnotes';
 
 import AudioPlayer from 'editorjs-audio-player';
 
-import Checklist from '@editorjs/checklist'
+import Checklist from '@editorjs/checklist';
+
+import Underline from '@editorjs/underline';
 
 
 const UpdatePost = () => {
@@ -75,6 +77,7 @@ const UpdatePost = () => {
         footnotes: {
           class: FootnotesTune,
         },
+        underline: Underline,
         changeCase: {
           class: ChangeCase,
           config: {

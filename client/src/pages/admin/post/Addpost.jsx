@@ -22,6 +22,7 @@ import Annotation from 'editorjs-annotation';
 
 import FootnotesTune from '@editorjs/footnotes';
 import Checklist from '@editorjs/checklist'
+import Underline from '@editorjs/underline';
 // terbaru
 import AudioPlayer from 'editorjs-audio-player';
 
@@ -54,6 +55,7 @@ const Addpost = () => {
             defaultLevel: 1,
           },
         },
+        underline: Underline,
         footnotes: {
           class: FootnotesTune,
           config: {
