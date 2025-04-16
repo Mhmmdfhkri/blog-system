@@ -88,21 +88,35 @@ const customParsers = {
       return `<h${level} class="font-semibold text-gray-800 ${sizeClass}">${block.data.text}</h${level}>`;
     },
     list: (block) => {
-      try {
-        const style = block?.data?.style === "ordered" ? "ol" : "ul";
-        const listStyle = style === "ol" ? "list-decimal" : "list-disc";
-        const items = (block?.data?.items || [])
-          .map((item) => {
-            const text = typeof item === "string" ? item : item?.content || "";
-            return `<li class="ml-6 ${listStyle} text-gray-700 text-base leading-relaxed">${text}</li>`;
-          })
-          .join("");
-        return `<${style} class="my-4">${items}</${style}>`;
-      } catch (err) {
-        console.error("List parsing error:", err, block);
-        return "";
+      const { style, items } = block.data;
+    
+      if (style === "checklist") {
+        return `
+          <div class="my-4">
+            <ul class="space-y-2">
+              ${items
+                .map(
+                  (item) => `
+                    <li class="flex items-start gap-2">
+                      <input type="checkbox" disabled ${item?.meta?.checked ? "checked" : ""} class="mt-1 accent-green-600">
+                      <span class="text-gray-700">${item.content}</span>
+                    </li>
+                  `
+                )
+                .join("")}
+            </ul>
+          </div>
+        `;
       }
-    },
+    
+      // Fallback untuk ordered/unordered list biasa
+      const tag = style === "ordered" ? "ol" : "ul";
+      return `
+        <${tag} class="list-${style === "ordered" ? "decimal" : "disc"} ml-6 text-gray-700 space-y-1 my-4">
+          ${items.map((item) => `<li>${item}</li>`).join("")}
+        </${tag}>
+      `;
+    },    
                  
     quote: (block) => {
       const text = block?.data?.text || "";
