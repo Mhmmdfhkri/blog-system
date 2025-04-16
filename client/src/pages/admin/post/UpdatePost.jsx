@@ -28,6 +28,8 @@ import FootnotesTune from '@editorjs/footnotes';
 
 import AudioPlayer from 'editorjs-audio-player';
 
+import Checklist from '@editorjs/checklist'
+
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -123,6 +125,10 @@ const UpdatePost = () => {
           inlineToolbar: true,
           tunes: ['footnotes'],
         },
+        checklist: {
+                  class: Checklist,
+                  inlineToolbar: true,
+                },
         image: {
           class: InlineImage,
           inlineToolbar: true,
