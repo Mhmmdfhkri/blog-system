@@ -24,6 +24,8 @@ import Delimiter from '@coolbytes/editorjs-delimiter';
 import ChangeCase from 'editorjs-change-case';
 import Annotation from 'editorjs-annotation';
 
+import FootnotesTune from '@editorjs/footnotes';
+
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -64,6 +66,9 @@ const UpdatePost = () => {
             levels: [1, 2, 3, 4],
             defaultLevel: 1,
           },
+        },
+        footnotes: {
+          class: FootnotesTune,
         },
         changeCase: {
           class: ChangeCase,
@@ -113,6 +118,7 @@ const UpdatePost = () => {
         paragraph: {
           class: Paragraph,
           inlineToolbar: true,
+          tunes: ['footnotes'],
         },
         image: {
           class: InlineImage,
