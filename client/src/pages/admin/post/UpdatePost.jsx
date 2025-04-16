@@ -32,6 +32,8 @@ import Checklist from '@editorjs/checklist';
 
 import Underline from '@editorjs/underline';
 
+import Tooltip from 'editorjs-tooltip';
+
 
 const UpdatePost = () => {
   const { id } = useParams();
@@ -74,6 +76,18 @@ const UpdatePost = () => {
           },
         },
         audioPlayer: AudioPlayer,
+        tooltip: {
+          class: Tooltip,
+          config: {
+            location: 'left',
+            underline: true,
+            placeholder: 'Enter a tooltip',
+            highlightColor: '#FFEFD5',
+            backgroundColor: '#154360',
+            textColor: '#FDFEFE',
+            holder: 'editorId',
+          }
+        },
         footnotes: {
           class: FootnotesTune,
         },

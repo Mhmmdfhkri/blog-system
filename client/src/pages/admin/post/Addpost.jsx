@@ -23,6 +23,8 @@ import Annotation from 'editorjs-annotation';
 import FootnotesTune from '@editorjs/footnotes';
 import Checklist from '@editorjs/checklist'
 import Underline from '@editorjs/underline';
+
+import Tooltip from 'editorjs-tooltip';
 // terbaru
 import AudioPlayer from 'editorjs-audio-player';
 
@@ -54,6 +56,18 @@ const Addpost = () => {
             levels: [1, 2, 3, 4],
             defaultLevel: 1,
           },
+        },
+        tooltip: {
+          class: Tooltip,
+          config: {
+            location: 'left',
+            underline: true,
+            placeholder: 'Enter a tooltip',
+            highlightColor: '#FFEFD5',
+            backgroundColor: '#154360',
+            textColor: '#FDFEFE',
+            holder: 'editorId',
+          }
         },
         underline: Underline,
         footnotes: {

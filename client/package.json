@@ -56,6 +56,7 @@
     "editorjs-change-case": "^0.0.3",
     "editorjs-inline-image": "^2.2.2",
     "editorjs-toggle-block": "^0.3.16",
+    "editorjs-tooltip": "^1.2.2",
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
