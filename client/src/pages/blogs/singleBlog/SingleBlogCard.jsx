@@ -6,53 +6,6 @@ import { Link } from "react-router-dom";
 import RelatedBlogs from "./RelatedBlogs";
 import CommentCard from "../comments/CommentCard";
 
-// Fungsi untuk render nested list
-
-function customParserWithToggle(blocks) {
-  const html = [];
-
-  for (let i = 0; i < blocks.length; i++) {
-    const block = blocks[i];
-
-    // Handle toggle block
-    if (block.type === "toggle") {
-      const toggleData = block.data?.toggle;
-      if (!toggleData?.title) continue;
-
-      const isOpen = toggleData.open === true;
-
-      // Ambil block setelahnya sebagai konten toggle
-      const nextBlock = blocks[i + 1];
-      let content = "";
-
-      if (nextBlock && nextBlock.type === "paragraph") {
-        content = nextBlock.data.text || "";
-        i++; // Lewati block berikutnya karena sudah dipakai
-      }
-
-      html.push(`
-        <details class="border rounded-lg p-4 bg-gray-50" ${isOpen ? "open" : ""}>
-          <summary class="cursor-pointer font-semibold text-gray-800">
-            ${toggleData.title}
-          </summary>
-          <div class="mt-2 text-gray-700">
-            ${content}
-          </div>
-        </details>
-      `);
-    }
-
-    // Handle block biasa (misal paragraph)
-    else if (block.type === "paragraph") {
-      html.push(`<p class="mb-2">${block.data?.text || ""}</p>`);
-    }
-
-    // Kamu bisa tambahkan parser untuk block lain di sini
-  }
-
-  return html.join("");
-}
-
 
 // Custom Parser
 const customParsers = {
