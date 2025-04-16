@@ -90,6 +90,8 @@ const customParsers = {
     list: (block) => {
       const { style, items } = block.data;
     
+      if (!items || !Array.isArray(items)) return "";
+    
       if (style === "checklist") {
         return `
           <div class="my-4">
@@ -113,7 +115,13 @@ const customParsers = {
       const tag = style === "ordered" ? "ol" : "ul";
       return `
         <${tag} class="list-${style === "ordered" ? "decimal" : "disc"} ml-6 text-gray-700 space-y-1 my-4">
-          ${items.map((item) => `<li>${item}</li>`).join("")}
+          ${items
+            .map((item) => {
+              if (typeof item === "string") return `<li>${item}</li>`;
+              if (typeof item === "object" && item?.content) return `<li>${item.content}</li>`;
+              return "";
+            })
+            .join("")}
         </${tag}>
       `;
     },    
