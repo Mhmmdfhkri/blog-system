@@ -24,8 +24,8 @@ const Register = () => {
       alert("Akun berhasil dibuat!");
       navigate("/login");
     } catch (error) {
-      setMessage("Registration Failed");
-      // alert("Registration Failed")
+       setMessage("Username atau Email telah digunakan");
+      alert("Akun gagal dibuat!");
     }
   };
 
