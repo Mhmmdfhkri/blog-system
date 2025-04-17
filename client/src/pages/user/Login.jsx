@@ -35,7 +35,7 @@ import 'react-toastify/dist/ReactToastify.css';
              }, 1000); 
        
      } catch (err) {
-       setMessage("Please provide a valid email and password!");
+       setMessage("Tolong masukkan email and password yang benar!");
      }
    };
  

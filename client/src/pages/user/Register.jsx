@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../../redux/features/auth/authApi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [username, setUserName] = useState("");
@@ -21,11 +23,11 @@ const Register = () => {
     };
     try {
       await registerUser(data).unwrap();
-      alert("Akun berhasil dibuat!");
+      toast.success("Akun berhasil dibuat!");
       navigate("/login");
     } catch (error) {
-       setMessage("Username atau Email telah digunakan");
-      alert("Akun gagal dibuat!");
+      setMessage("Username atau Email telah digunakan");
+      toast.failed("Akun gagal dibuat!");
     }
   };
 
